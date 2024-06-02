@@ -129,6 +129,8 @@ def draw_drone(img,x,y,color,a=0,led=(-1,-1,-1),up=False,skin=1,device="F400"):
             cv2.circle(img,(int(x-12.6/2*np.cos(-np.pi/4+a)),int(y+12.6/2*np.sin(-np.pi/4+a))),5,color,1)
             cv2.line(img,(int(x-12.6/2*np.cos(np.pi/4+a)),int(y+12.6/2*np.sin(np.pi/4+a))),(int(x-12.6/2*np.cos(-3*np.pi/4+a)),int(y+12.6/2*np.sin(-3*np.pi/4+a))),color,1)
             cv2.line(img,(int(x-12.6/2*np.cos(-np.pi/4+a)),int(y+12.6/2*np.sin(-np.pi/4+a))),(int(x-12.6/2*np.cos(3*np.pi/4+a)),int(y+12.6/2*np.sin(3*np.pi/4+a))),color,1)
+            if led[0]>-1:
+                cv2.circle(img,(int(x),int(y)),3,led,-1)
         else:
             cv2.ellipse(img,(int(x+12.6/(2**0.5)/2),int(y-1/4*4.0)),(5,2),0,0,360,color,1)
             cv2.ellipse(img,(int(x-12.6/(2**0.5)/2),int(y-1/4*4.0)),(5,2),0,0,360,color,1)
@@ -136,6 +138,8 @@ def draw_drone(img,x,y,color,a=0,led=(-1,-1,-1),up=False,skin=1,device="F400"):
             cv2.ellipse(img,(int(x+12.6/(2**0.5)/2),int(y-3/4*4.0)),(5,2),0,0,360,color,1)
             cv2.line(img,(int(x+12.6/(2**0.5)/2),int(y-1/4*4.0)),(int(x-21/(2**0.5)/2),int(y-3/4*4.0)),color,1)
             cv2.line(img,(int(x-12.6/(2**0.5)/2),int(y-1/4*4.0)),(int(x+21/(2**0.5)/2),int(y-3/4*4.0)),color,1)
+            if led[0]>-1:
+                cv2.circle(img,(int(x),int(y-1/2*7.6)),3,led,-1)
     else:
         raise(Exception("Error Drone Type!无人机型号不支持"))
 
@@ -172,7 +176,10 @@ def drone3d(aixs,x,y,z,c,a,led=(-1,-1,-1),acceleration=(0,0,0),g=np.array([0,0,-
         aixs.append([(x+ring4[0][0],y+ring4[0][1],z+ring4[0][2]),c,(17.5/2-12.6/4*2**0.5),1,(unit_wing_force[0],unit_wing_force[1],unit_wing_force[2]),'ring'])
         aixs.append([(x+ring1[0][0],y+ring1[0][1],z+ring1[0][2]),(x+ring3[0][0],y+ring3[0][1],z+ring3[0][2]),c,1,8,'line'])
         aixs.append([(x+ring2[0][0],y+ring2[0][1],z+ring2[0][2]),(x+ring4[0][0],y+ring4[0][1],z+ring4[0][2]),c,1,8,'line'])
-        aixs.append([(x,y,z),c,1,-1,'sphere'])
+        if led[0]>-1:
+            aixs.append([(x,y,z),led,3,-1,'sphere'])
+        else:
+            aixs.append([(x,y,z),c,1,-1,'sphere'])
     else:
         raise(Exception("Error Drone Type!无人机型号不支持"))
 
