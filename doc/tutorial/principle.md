@@ -132,7 +132,7 @@
     2. 渲染
 
         ```python
-        show(data,t0,music,feild,show=True,save="",FPS=200,max_fps=200,ThreeD=False,imshow=[120,-15],d=(600,450),track=[],skin=1)
+        show(data,t0,music,feild=6,device="F400",show=True,save="",FPS=200,max_fps=200,ThreeD=False,imshow=[120,-15],d=(600,450),track=[],skin=1)
         ```
 
         这里参数比较多，需要一一介绍

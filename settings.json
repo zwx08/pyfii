@@ -1,0 +1,11 @@
+{
+    "video_generate": true,
+    "video_framerate": 20,
+    "operation_framerate": 20,
+    "render_mode": 0,
+    "observer_yaw": 90,
+    "observer_pitch": 3,
+    "scale_ratio": 1.0,
+    "observer_distance": 600,
+    "observer_view": 450
+}
