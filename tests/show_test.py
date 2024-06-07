@@ -5,7 +5,7 @@ sys.path.append(path)
 
 import pyfii as pf
 
-name='output/无人区'
+name='output/大闹天宫'
 '''data,t0,music,feild=pf.read_fii(name,getfeild=True)
 pf.show(data,t0,music,feild=feild,skin=1)
 pf.show(data,t0,music,feild=feild,ThreeD=True,imshow=[120,-30],d=(1,0))'''

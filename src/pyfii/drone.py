@@ -281,7 +281,7 @@ inittime('''+str(time)+''')
         """
         移动(x距离,y距离,z距离)
         单位:cm
-        必须在intime(time)中
+        必须在inittime(time)中
         """
         self.x+=x
         self.y+=y
@@ -312,7 +312,7 @@ inittime('''+str(time)+''')
         直线移动至(x坐标,y坐标,z坐标)
         单位:cm
         范围:x,y:0~560,z:80~250
-        必须在intime(time)中
+        必须在inittime(time)中
         """
         if self.outRange(x,'xyRange') or self.outRange(y,'xyRange') or self.outRange(z,'zRange'):
             raise Exception("Out of range.超出范围。")
@@ -340,7 +340,7 @@ inittime('''+str(time)+''')
         """
         等待(时间)
         单位:ms
-        必须在intime(time)中
+        必须在inittime(time)中
         """
         self.time+=int(time+0.5)
         def delay_callback(self, time):
@@ -365,7 +365,7 @@ inittime('''+str(time)+''')
         水平速度（速度,加速度）
         单位:cm/s,cm/s^2
         范围:速度:20~200,加速度:50~400
-        必须在intime(time)中
+        必须在inittime(time)中
         """
         self.append_action(DroneAction(self.VelXY_callback, [v, a], timestamp))
 
@@ -391,7 +391,7 @@ inittime('''+str(time)+''')
         """
         竖直速度（速度,加速度）
         单位:cm/s,cm/s^2
-        必须在intime(time)中
+        必须在inittime(time)中
         """
         self.append_action(DroneAction(self.VelZ_callback, [v, a], timestamp))
     
@@ -417,7 +417,7 @@ inittime('''+str(time)+''')
         水平加速度（加速度）
         单位:cm/s^2
         范围:50~400
-        必须在intime(time)中
+        必须在inittime(time)中
         """
         def AccXY(self, a):
             spaces='  '*(self.space+self.block)
@@ -439,7 +439,7 @@ inittime('''+str(time)+''')
         """
         竖直加速度（加速度）
         单位:cm/s^2
-        必须在intime(time)中
+        必须在inittime(time)中
         """
         if self.outRange(a,'accRange'):
             raise Exception("Out of range.超出范围。")
@@ -465,7 +465,7 @@ inittime('''+str(time)+''')
         角速度（角速度）
         单位:°/s
         范围:5~60
-        必须在intime(time)中
+        必须在inittime(time)中
         """
         if self.outRange(w,'ArateRange'):
             raise Exception("Out of range.超出范围。")
@@ -490,7 +490,7 @@ inittime('''+str(time)+''')
         """
         转动（角度）
         单位:°（左正右负）
-        必须在intime(time)中
+        必须在inittime(time)中
         """
         def Yaw_callback(self, a):
             spaces='  '*(self.space+self.block)
@@ -524,7 +524,7 @@ inittime('''+str(time)+''')
         """
         转向（角度）
         单位:°（左正右负）
-        必须在intime(time)中
+        必须在inittime(time)中
         """
         def Yaw2_callback(self, a):
             spaces='  '*(self.space+self.block)
@@ -1106,7 +1106,7 @@ inittime('''+str(time)+''')
         """
         移动(x距离,y距离,z距离)
         单位:cm
-        必须在intime(time)中
+        必须在inittime(time)中
         """
         self.x+=x
         self.y+=y
@@ -1137,7 +1137,7 @@ inittime('''+str(time)+''')
         直线移动至(x坐标,y坐标,z坐标)
         单位:cm
         范围:x,y:0~560,z:80~250
-        必须在intime(time)中
+        必须在inittime(time)中
         """
         if self.outRange(x,'xyRange') or self.outRange(y,'xyRange') or self.outRange(z,'zRange'):
             raise Exception("Out of range.超出范围。")
@@ -1165,7 +1165,7 @@ inittime('''+str(time)+''')
         """
         等待(时间)
         单位:ms
-        必须在intime(time)中
+        必须在inittime(time)中
         """
         self.time+=int(time+0.5)
         def delay_callback(self, time):
@@ -1190,7 +1190,7 @@ inittime('''+str(time)+''')
         水平速度（速度,加速度）
         单位:cm/s,cm/s^2
         范围:速度:20~200,加速度:50~400
-        必须在intime(time)中
+        必须在inittime(time)中
         """
         self.append_action(DroneAction(self.VelXY_callback, [v, a], timestamp))
 
@@ -1216,7 +1216,7 @@ inittime('''+str(time)+''')
         """
         竖直速度（速度,加速度）
         单位:cm/s,cm/s^2
-        必须在intime(time)中
+        必须在inittime(time)中
         """
         self.append_action(DroneAction(self.VelZ_callback, [v, a], timestamp))
     
@@ -1242,7 +1242,7 @@ inittime('''+str(time)+''')
         水平加速度（加速度）
         单位:cm/s^2
         范围:50~400
-        必须在intime(time)中
+        必须在inittime(time)中
         """
         def AccXY(self, a):
             spaces='  '*(self.space+self.block)
@@ -1264,7 +1264,7 @@ inittime('''+str(time)+''')
         """
         竖直加速度（加速度）
         单位:cm/s^2
-        必须在intime(time)中
+        必须在inittime(time)中
         """
         if self.outRange(a,'accRange'):
             raise Exception("Out of range.超出范围。")
@@ -1290,7 +1290,7 @@ inittime('''+str(time)+''')
         角速度（角速度）
         单位:°/s
         范围:5~60
-        必须在intime(time)中
+        必须在inittime(time)中
         """
         if self.outRange(w,'ArateRange'):
             raise Exception("Out of range.超出范围。")
@@ -1315,7 +1315,7 @@ inittime('''+str(time)+''')
         """
         转动（角度）
         单位:°（左正右负）
-        必须在intime(time)中
+        必须在inittime(time)中
         """
         def Yaw_callback(self, a):
             spaces='  '*(self.space+self.block)
@@ -1349,7 +1349,7 @@ inittime('''+str(time)+''')
         """
         转向（角度）
         单位:°（左正右负）
-        必须在intime(time)中
+        必须在inittime(time)中
         """
         def Yaw2_callback(self, a):
             spaces='  '*(self.space+self.block)

@@ -139,7 +139,7 @@ def draw_drone(img,x,y,color,a=0,led=(-1,-1,-1),up=False,skin=1,device="F400"):
             cv2.line(img,(int(x+12.6/(2**0.5)/2),int(y-1/4*4.0)),(int(x-21/(2**0.5)/2),int(y-3/4*4.0)),color,1)
             cv2.line(img,(int(x-12.6/(2**0.5)/2),int(y-1/4*4.0)),(int(x+21/(2**0.5)/2),int(y-3/4*4.0)),color,1)
             if led[0]>-1:
-                cv2.circle(img,(int(x),int(y-1/2*7.6)),3,led,-1)
+                cv2.circle(img,(int(x),int(y-1/2*4.0)),3,led,-1)
     else:
         raise(Exception("Error Drone Type!无人机型号不支持"))
 
@@ -177,7 +177,7 @@ def drone3d(aixs,x,y,z,c,a,led=(-1,-1,-1),acceleration=(0,0,0),g=np.array([0,0,-
         aixs.append([(x+ring1[0][0],y+ring1[0][1],z+ring1[0][2]),(x+ring3[0][0],y+ring3[0][1],z+ring3[0][2]),c,1,8,'line'])
         aixs.append([(x+ring2[0][0],y+ring2[0][1],z+ring2[0][2]),(x+ring4[0][0],y+ring4[0][1],z+ring4[0][2]),c,1,8,'line'])
         if led[0]>-1:
-            aixs.append([(x,y,z),led,3,-1,'sphere'])
+            aixs.append([(x,y,z),led,6.7/2,-1,'sphere'])
         else:
             aixs.append([(x,y,z),c,1,-1,'sphere'])
     else:
