@@ -1,0 +1,6 @@
+opencv-python
+pyqt5
+tqdm
+numpy
+pygame
+ffmpy
