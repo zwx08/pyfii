@@ -21,7 +21,7 @@ for d,y in zip(ds,range(40,560,80)):
     # 定义起飞位置
     d.X=40
     d.Y=y
-    
+
     # 起飞
     d.takeoff(1,80)
 
@@ -88,7 +88,7 @@ F=pf.Fii(path,ds)
 F.save(feild=6)
 
 # 读取
-data,t0,music,feild=pf.read_fii(path,getfeild=True)
+data,t0,music,feild,*_=pf.read_fii(path,getfeild=True)
 # 储存二维模拟视频
 pf.show(data,t0,music,feild=feild,save=path,FPS=25)
 # 储存三维模拟视频

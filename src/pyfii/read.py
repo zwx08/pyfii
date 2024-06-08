@@ -391,12 +391,12 @@ def dots2line(file,fii=[],fps=200,points={},ignore_acc=False):#将指令转换�
             '''if moving:
                 if a==1:#加速状态
                     if R-(v+a/2)<slength:#加速是否结束
-                        if 
+                        if
             if v==vel:
                 a=0
             else:
-            
-                
+
+
             if R<=v:
                 x=dots[k][1]
                 y=dots[k][2]
@@ -571,12 +571,12 @@ def dots2line(file,fii=[],fps=200,points={},ignore_acc=False):#将指令转换�
             '''if moving:
                 if a==1:#加速状态
                     if R-(v+a/2)<slength:#加速是否结束
-                        if 
+                        if
             if v==vel:
                 a=0
             else:
-            
-                
+
+
             if R<=v:
                 x=dots[k][1]
                 y=dots[k][2]
@@ -678,12 +678,7 @@ def read_fii(path,getfeild=False,getdevice=False,fps=200,ignore_acc=False):
                 warnings.warn('d'+str(n)+' 无人机'+str(n)+':'+warn,Warning,2)
         print('\r'+str(n)+'/'+str(len(drones)),end='')
     print('\n读取文件与轨迹计算耗时：'+str(int((time.time()-time_start)*1000+0.5)/1000)+'秒')
-    if getdevice:
-        return dots,t0,music,feild,DeviceType
-    if getfeild:
-        return dots,t0,music,feild
-    else:
-        return dots,t0,music
+    return dots,t0,music,feild,DeviceType
 
 '''def read_py(fii):
     time_start=time.time()
@@ -701,4 +696,3 @@ def read_fii(path,getfeild=False,getdevice=False,fps=200,ignore_acc=False):
         print('\r'+str(n)+'/'+str(len(fii.ds)),end='')
     print('\n轨迹计算耗时：'+str(int((time.time()-time_start)*1000+0.5)/1000)+'秒')
     return dots,t0'''
-    

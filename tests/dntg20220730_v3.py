@@ -7,7 +7,7 @@ import pyfii as pf
 import numpy as np
 import cmath
 from function import *
-   
+
 '''创建无人机'''
 d1=pf.Drone()
 d2=pf.Drone()
@@ -55,7 +55,7 @@ for d in ds:
         for a in range(20,30):
             d.TurnOnAll(rgb2str((23+a*8)*leds[n-1][0],(23+a*8)*leds[n-1][1],(23+a*8)*leds[n-1][2]))
             d.delay(100)
-        
+
 '''起飞->利萨如
 startTime = 7s
 endTime = 10s
@@ -63,7 +63,7 @@ endTime = 10s
 leds=[]
 for a in range(60):
     leds.append([int(160+95.5*np.sin(2*a/60*2*np.pi)),int(160+95.5*np.sin(3*a/60*2*np.pi)),int(160+95.5*np.sin(4*a/60*2*np.pi+np.pi/2))])
-dleds=[[0,1,2],[0,2,1],[1,0,2],[],[1,2,0],[2,0,1],[2,1,0]]  
+dleds=[[0,1,2],[0,2,1],[1,0,2],[],[1,2,0],[2,0,1],[2,1,0]]
 li=[]
 for a in range(24):
     li.append((280+320/3**0.5*np.sin(2*a/24*2*np.pi),280+320/3**0.5*np.sin(3*a/24*2*np.pi),165+128/3**0.5*np.sin(4*a/24*2*np.pi+np.pi/2)))
@@ -85,7 +85,7 @@ for d in [d4,d3,d2,d7,d1,d6,d5]:
     elif n==3:
         d.intime(7)
         move2(d,(d.x,d.y-80*3**0.5,d.z),1500)
-        d.delay(1500) 
+        d.delay(1500)
         b=0
         for a in [0,1,2,4,5,6]:
             b+=li[li1[a]][2]/6
@@ -229,7 +229,7 @@ for d in [d2,d1,d6,d3,d4,d5,d7]:
         for a in range(16):
             d.TurnOnAll(rgb2str(15,255-16*a,15))
             d.delay(100)
-    
+
     if n==7:
         for a in range(80):
             d.TurnOnAll(rgb2str(int(128+127.5*np.sin(a*np.pi*2/16)),int(128+127.5*np.sin(a*np.pi*2/16+2*np.pi/3)),int(128+127.5*np.sin(a*np.pi*2/16+2*np.pi*2/3))))
@@ -404,12 +404,12 @@ for d in ds:
     d.land()
     d.end()
 
-    
-        
+
+
 name = 'output/大闹天宫'
 F=pf.Fii(name,ds,music='云宫迅音_缩混3.mp3')
 F.save()
-data, t0, music = pf.read_fii(name,fps=60)
+data, t0, music,*_ = pf.read_fii(name,fps=60)
 #pf.show(data, t0, music, save='dntg20220730', FPS=60,max_fps=60,skin=1)
 #pf.show(data,t0,music,save='dntg20220730_3D',ThreeD=True,imshow=[90,3],d=(600,500),FPS=60,max_fps=60)
 pf.show(data, t0, music, save='dntg20220730_f600', FPS=60,max_fps=60,skin=1,device="F600")
