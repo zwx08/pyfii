@@ -606,7 +606,7 @@ def dots2line(file,fii=[],fps=200,points={},ignore_acc=False):#将指令转换�
         lines.append((time+t,x,y,z))'''
     return(lines,time*fps/1000,warns)
 
-def read_fii(path,getfeild=False,getdevice=False,fps=200,ignore_acc=False):
+def read_fii(path,getfield=False,getdevice=False,fps=200,ignore_acc=False):
     '''
     读入.fii文件
     path 所在文件夹的路径
@@ -635,7 +635,7 @@ def read_fii(path,getfeild=False,getdevice=False,fps=200,ignore_acc=False):
             #print(xml[k].split('"')[1][0])
             drones.append(xml[k].split('"')[1])
         if xml[k][1:6]=='AreaL':
-            feild=int(xml[k].split('"')[1][0])
+            field=int(xml[k].split('"')[1][0])
         if xml[k][1:11]=='DeviceType':
             DeviceType=xml[k].split('"')[1]
     if len(music)==1:
@@ -679,9 +679,9 @@ def read_fii(path,getfeild=False,getdevice=False,fps=200,ignore_acc=False):
         print('\r'+str(n)+'/'+str(len(drones)),end='')
     print('\n读取文件与轨迹计算耗时：'+str(int((time.time()-time_start)*1000+0.5)/1000)+'秒')
     if getdevice:
-        return dots,t0,music,feild,DeviceType
-    if getfeild:
-        return dots,t0,music,feild
+        return dots,t0,music,field,DeviceType
+    if getfield:
+        return dots,t0,music,field
     else:
         return dots,t0,music
 

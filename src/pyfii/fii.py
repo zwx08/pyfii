@@ -27,7 +27,7 @@ class Fii:
             except Exception as e:
                 logging.exception(e)
 
-    def save(self,infii=False,addlights=False,feild=6):
+    def save(self,infii=False,addlights=False,field=6):
         if not addlights:
             if infii:
                 file=open(self.name+'.fii',"w",encoding='utf-8')
@@ -38,8 +38,8 @@ class Fii:
             file.write('''<?xml version="1.0" encoding="utf-8"?>
 <GoertekGraphicXml>
   <DeviceType DeviceType="F400" />
-  <AreaL AreaL="'''+str(feild)+'''00" />
-  <AreaW AreaW="'''+str(feild)+'''00" />
+  <AreaL AreaL="'''+str(field)+'''00" />
+  <AreaW AreaW="'''+str(field)+'''00" />
   <AreaH AreaH="300" />
 ''')
             if len(self.music)>0:
@@ -89,8 +89,8 @@ class Fii:
     d.end()
 ''')
                 file.write('''F=Fii(\''''+self.name+'''\',ds,music=\'动作组/'''+self.music+'''\')\n''')
-                file.write('''F.save(True,feild='''+str(feild)+''')
-show(F.dots,F.t0,[F.music],feild='''+str(feild)+''',save=\''''+self.name+'''\',FPS=25)''')
+                file.write('''F.save(True,field='''+str(field)+''')
+show(F.dots,F.t0,[F.music],field='''+str(field)+''',save=\''''+self.name+'''\',FPS=25)''')
 
             if infii:
                 if not os.path.exists('动作组'):
@@ -321,7 +321,7 @@ class Fii6:
             except Exception as e:
                 logging.exception(e)
 
-    def save(self,infii=False,addlights=False,feild=6):
+    def save(self,infii=False,addlights=False,field=6):
         if not addlights:
             if infii:
                 file=open(self.name+'.fii',"w",encoding='utf-8')
@@ -332,8 +332,8 @@ class Fii6:
             file.write('''<?xml version="1.0" encoding="utf-8"?>
 <GoertekGraphicXml>
   <DeviceType DeviceType="F600" />
-  <AreaL AreaL="'''+str(feild)+'''00" />
-  <AreaW AreaW="'''+str(feild)+'''00" />
+  <AreaL AreaL="'''+str(field)+'''00" />
+  <AreaW AreaW="'''+str(field)+'''00" />
   <AreaH AreaH="300" />
 ''')
             if len(self.music)>0:
@@ -383,8 +383,8 @@ class Fii6:
     d.end()
 ''')
                 file.write('''F=Fii(\''''+self.name+'''\',ds,music=\'动作组/'''+self.music+'''\')\n''')
-                file.write('''F.save(True,feild='''+str(feild)+''')
-show(F.dots,F.t0,[F.music],feild='''+str(feild)+''',save=\''''+self.name+'''\',FPS=25)''')
+                file.write('''F.save(True,field='''+str(field)+''')
+show(F.dots,F.t0,[F.music],field='''+str(field)+''',save=\''''+self.name+'''\',FPS=25)''')
 
             if infii:
                 if not os.path.exists('动作组'):

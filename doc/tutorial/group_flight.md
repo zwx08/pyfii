@@ -92,17 +92,17 @@
         ```python
         name='output/group_flight_6m_2'
         F=pf.Fii(name,ds)
-        F.save(feild=6)
+        F.save(field=6)
         ```
 
     5. 模拟
         ```python
         # 读取
-        data,t0,music,feild=pf.read_fii(name,getfeild=True)
+        data,t0,music,field=pf.read_fii(name,getfield=True)
         # 储存二维模拟视频
-        pf.show(data,t0,music,feild=feild,save=name,FPS=25)
+        pf.show(data,t0,music,field=field,save=name,FPS=25)
         # 储存三维模拟视频
-        pf.show(data,t0,music,feild=feild,save=name+'_3D',ThreeD=True,imshow=[90,0],d=(600,450),FPS=25)
+        pf.show(data,t0,music,field=field,save=name+'_3D',ThreeD=True,imshow=[90,0],d=(600,450),FPS=25)
         ```
 
 2. 4m毯
@@ -195,15 +195,15 @@
         ```python
         name='output/group_flight_4m_2'
         F=pf.Fii(name,ds)
-        F.save(feild=4)
+        F.save(field=4)
         ```
 
     5. 模拟
         ```python
         # 读取
-        data,t0,music,feild=pf.read_fii(name,getfeild=True)
+        data,t0,music,field=pf.read_fii(name,getfield=True)
         # 储存二维模拟视频
-        pf.show(data,t0,music,feild=feild,save=name,FPS=25)
+        pf.show(data,t0,music,field=field,save=name,FPS=25)
         # 储存三维模拟视频
-        pf.show(data,t0,music,feild=feild,save=name+'_3D',ThreeD=True,imshow=[90,0],d=(600,550),FPS=25)
+        pf.show(data,t0,music,field=field,save=name+'_3D',ThreeD=True,imshow=[90,0],d=(600,550),FPS=25)
         ```

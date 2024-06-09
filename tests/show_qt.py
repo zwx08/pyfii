@@ -265,15 +265,15 @@ class MainWindow(QWidget):
                     max_fps=settings["operation_framerate"]
                 )
         elif pf.__version__=="1.6.0":
-            data,t0,music,feild,device=pf.read_fii(os.path.dirname(input_file_path),getdevice=True,fps=settings["operation_framerate"],ignore_acc=False)
+            data,t0,music,field,device=pf.read_fii(os.path.dirname(input_file_path),getdevice=True,fps=settings["operation_framerate"],ignore_acc=False)
             if settings["render_mode"]==0:
-                pf.show(data,t0,music,feild=feild,device=device,
+                pf.show(data,t0,music,field=field,device=device,
                     save=os.path.splitext(output_file_path)[0]*settings["video_generate"],
                     FPS=settings["video_framerate"],
                     max_fps=settings["operation_framerate"]
                 )
             elif settings["render_mode"]==1:
-                pf.show(data,t0,music,feild=feild,device=device,
+                pf.show(data,t0,music,field=field,device=device,
                     save=os.path.splitext(output_file_path)[0]*settings["video_generate"],
                     ThreeD=True,
                     imshow=[settings["observer_yaw"],settings["observer_pitch"]],
@@ -282,7 +282,7 @@ class MainWindow(QWidget):
                     max_fps=settings["operation_framerate"]
                 )
             elif settings["render_mode"]==2:
-                pf.show(data,t0,music,feild=feild,device=device,
+                pf.show(data,t0,music,field=field,device=device,
                     save=os.path.splitext(output_file_path)[0]*settings["video_generate"],
                     ThreeD=True,
                     imshow=[settings["observer_yaw"],settings["observer_pitch"]],

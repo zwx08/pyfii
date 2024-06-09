@@ -194,7 +194,7 @@ def drone3d(aixs,x,y,z,c,a,led=(-1,-1,-1),acceleration=(0,0,0),g=np.array([0,0,-
     if int((n%765)/255)==2:
         return(x,255-n%255,n%255)'''
 
-def show(data,t0,music,feild=6,device="F400",show=True,save="",FPS=200,max_fps=200,ThreeD=False,imshow=[120,-15],d=(600,450),track=[],skin=1):
+def show(data,t0,music,field=6,device="F400",show=True,save="",FPS=200,max_fps=200,ThreeD=False,imshow=[120,-15],d=(600,450),track=[],skin=1):
     t0=int(t0+0.5)+3*max_fps
     if len(save)>0 and not ThreeD:  # save 2D video
         show=False
@@ -237,7 +237,7 @@ def show(data,t0,music,feild=6,device="F400",show=True,save="",FPS=200,max_fps=2
             cv2.rectangle(img,(600+x*150,540),(750+x*150,570),(255,255,255),1)
             cv2.rectangle(img,(600+x*150,570),(750+x*150,600),(255,255,255),1)
         cv2.rectangle(img,(1120,570),(1200,600),(255,255,255),1)
-        if feild==4:
+        if field==4:
             cv2.rectangle(img,(20,580),(380,220),(255,255,255),1)
             cv2.rectangle(img,(1000,0),(1000,540),(255,255,255),1)
         font=cv2.FONT_HERSHEY_SIMPLEX
@@ -246,12 +246,12 @@ def show(data,t0,music,feild=6,device="F400",show=True,save="",FPS=200,max_fps=2
         cv2.imwrite('gui.png',img)
         #生成可视化界面↑
     if ThreeD:
-        if feild==6:
+        if field==6:
             center=(280,280,165)#三维渲染旋转中心
-        if feild==4:
+        if field==4:
             center=(180,180,165)#三维渲染旋转中心
         lines=[]#三维渲染的线
-        if feild==6:
+        if field==6:
             lines.append([(-20,-20,0),(580,-20,0),(0,0,255),1,8,'line'])
             lines.append([(-20,-20,0),(-20,580,0),(0,255,0),1,8,'line'])
             lines.append([(-20,-20,0),(-20,-20,300),(255,0,0),1,8,'line'])
@@ -262,7 +262,7 @@ def show(data,t0,music,feild=6,device="F400",show=True,save="",FPS=200,max_fps=2
             lines.append([(0,0,0),(0,560,0),(255,255,255),1,8,'line'])
             lines.append([(0,560,0),(560,560,0),(255,255,255),1,8,'line'])
             lines.append([(560,0,0),(560,560,0),(255,255,255),1,8,'line'])
-        if feild==4:
+        if field==4:
             lines.append([(-20,-20,0),(380,-20,0),(0,0,255),1,8,'line'])
             lines.append([(-20,-20,0),(-20,380,0),(0,255,0),1,8,'line'])
             lines.append([(-20,-20,0),(-20,-20,300),(255,0,0),1,8,'line'])
@@ -274,7 +274,7 @@ def show(data,t0,music,feild=6,device="F400",show=True,save="",FPS=200,max_fps=2
             lines.append([(0,360,0),(360,360,0),(255,255,255),1,8,'line'])
             lines.append([(360,0,0),(360,360,0),(255,255,255),1,8,'line'])
         for x in range(1,57):
-            if feild==4 and x>36:
+            if field==4 and x>36:
                 break
             if x%10==5:
                 lines.append([(x*10,-20,0),(x*10,20,40),(255,255,0),1,8,'line'])
