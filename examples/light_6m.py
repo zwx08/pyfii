@@ -43,8 +43,8 @@ d1.end()    # 整合动作和灯光
 
 path='output/light_6m'
 F=pf.Fii(path,[d1])
-F.save(feild=6)
+F.save(field=6)
 
-data,t0,music,feild=pf.read_fii(path,getfeild=True)
-pf.show(data,t0,music,feild=feild,save=path,FPS=25)
-pf.show(data,t0,music,feild=feild,save=path+'_3D',ThreeD=True,imshow=[90,0],d=(600,550),FPS=25)
+data,t0,music,field=pf.read_fii(path,getfield=True)
+pf.show(data,t0,music,field=field,save=path,FPS=25)
+pf.show(data,t0,music,field=field,save=path+'_3D',ThreeD=True,imshow=[90,0],d=(600,550),FPS=25)

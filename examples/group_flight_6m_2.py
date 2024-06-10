@@ -32,7 +32,7 @@ for d,y in zip(ds,range(40,560,80)):
     # 竖直速度200cm/s 加速度400cm/s^2
     # 建议竖直速度加速度与水平速度加速度统一
     d.VelZ(200,400)
-    # 移动至(340,y,250)
+    # 移动至(520,y,250)
     d.move2(520,y,250)
     # 全部亮黄灯
     d.TurnOnAll('#ffff00')
@@ -41,7 +41,7 @@ for d,y in zip(ds,range(40,560,80)):
     d.delay(500)
     # 全部亮绿灯
     d.TurnOnAll((0,255,0))
-    # 等待1312ms
+    # 等待2046ms
     # t = s_匀速 / v = ( s_总 - s_加速 - s_减速 ) / v
     # = ( sqrt ( ( x_1 - x_0 ) ^ 2 + ( y_1 - y_0 ) ^ 2 + ( z_1 - z_0 ) ^ 2 ) - v ^ 2 / a ) / v
     # = ( sqrt ( ( 520cm - 40cm ) ^ 2 + ( y - y ) ^2 + ( 250cm - 80cm ) ^ 2 ) - 200cm/s ^ 2 / 400cm/s^2 ) / 200cm/s
@@ -85,14 +85,14 @@ for d,y in zip(ds,range(40,560,80)):
 # 保存
 path='output/group_flight_6m_2'
 F=pf.Fii(path,ds)
-F.save(feild=6)
+F.save(field=6)
 
 # 读取
-data,t0,music,feild,*_=pf.read_fii(path,getfeild=True)
+data,t0,music,field,*_=pf.read_fii(path,getfeild=True)
 # 储存二维模拟视频
-pf.show(data,t0,music,feild=feild,save=path,FPS=25)
+pf.show(data,t0,music,field=field,save=path,FPS=25)
 # 储存三维模拟视频
-pf.show(data,t0,music,feild=feild,save=path+'_3D',ThreeD=True,imshow=[90,0],d=(600,450),FPS=25)
+pf.show(data,t0,music,field=field,save=path+'_3D',ThreeD=True,imshow=[90,0],d=(600,450),FPS=25)
 
 '''
 如果在实际飞行中三架无人机保持在一条直线上，

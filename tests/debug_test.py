@@ -43,4 +43,4 @@ d1.end()    # 整合动作和灯光
 
 name='light_6m'
 F=pf.Fii(name,[d1])
-F.save(feild=6)
+F.save(field=6)

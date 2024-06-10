@@ -46,11 +46,11 @@ d1.end()
 
 name='output/group_flight_4m_1'
 F=pf.Fii(name,[d1])
-F.save(feild=4)
+F.save(field=4)
 
-data,t0,music,feild=pf.read_fii(name,getfeild=True)
-pf.show(data,t0,music,feild=feild,save=name,FPS=25)
-pf.show(data,t0,music,feild=feild,save=name+'_3D',ThreeD=True,imshow=[90,0],d=(600,550),FPS=25)
+data,t0,music,field=pf.read_fii(name,getfield=True)
+pf.show(data,t0,music,field=field,save=name,FPS=25)
+pf.show(data,t0,music,field=field,save=name+'_3D',ThreeD=True,imshow=[90,0],d=(600,550),FPS=25)
 
 '''
 单机飞行示例，

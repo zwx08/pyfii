@@ -212,13 +212,13 @@
     # 保存
     name='group_flight_6m_2'
     F=pf.Fii(name,ds)
-    F.save(addlights=True,feild=6)
+    F.save(addlights=True,field=6)
     ```
 
     其中，最关键的一行是
 
     ```python
-    F.save(addlights=True,feild=6)
+    F.save(addlights=True,field=6)
     ```
 
     运行结果就是原来的灯光被删除，新的灯光被加入了进去
