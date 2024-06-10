@@ -3,12 +3,7 @@ import cv2
 from cv2.typing import MatLike, Scalar
 import numpy as np
 from .transfer import *
-
-# 类型别名 为了兼容3.12以下Python版本没有使用type Alias = ...语法
-
-Vec3 = np.ndarray | Tuple[float, float, float] | List[float, float, float]
-Degree = float  # 角度制浮点数
-Radian = float  # 弧度制浮点数
+from .typing import Vec3, Degree, Radian
 
 
 def eye_vector(a: Degree, b: Degree) -> Tuple[float, float, float]:
@@ -273,7 +268,29 @@ def ring(
                 )
 
 
-def distance(obj3d: List[Any], x, y, A, B, center=(0, 0, 0), d=(1, 0)):  # 计算距离
+def distance(
+    obj3d: List[Any],
+    x: float,
+    y: float,
+    A: Degree,
+    B: Degree,
+    center: Tuple[float, float, float] = (0, 0, 0),
+    d: Tuple[float, float] = (1, 0),
+) -> float:
+    """计算距离
+
+    Args:
+        obj3d (List[Any]): 三维物体
+        x (float): 二维平面原点x
+        y (float): 二维平面原点y
+        A (Degree): 观察者面朝角度a
+        B (Degree): 观察者面朝角度b
+        center (Tuple[float, float, float], optional): 观察者观察的中心位置. Defaults to (0, 0, 0).
+        d (Tuple[float, float], optional): _description_. Defaults to (1, 0).
+
+    Returns:
+        float: 距离
+    """
     if obj3d[-1] == "text":
         return -10000
     elif obj3d[-1] == "line":

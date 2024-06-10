@@ -1,10 +1,6 @@
-from typing import List, Tuple
+from typing import Tuple
 import numpy as np
-
-Vec2 = np.ndarray | Tuple[float, float] | List[float, float]
-
-Degree = float  # 角度制浮点数
-Radian = float  # 弧度制浮点数
+from .typing import Vec2, Vec3, Radian
 
 
 def xy2ra(x: float, y: float) -> Tuple[float, Radian]:
@@ -129,24 +125,54 @@ def move(point2d: Vec2, x: float, y: float) -> Tuple[float, float]:
     return (x, y)
 
 
-def rotate3d(aixs, a, b):  # 三维旋转(坐标点,旋转角度)
-    x = aixs[0]
-    y = aixs[1]
-    z = aixs[2]
+def rotate3d(point3d: Vec3, a: Radian, b: Radian) -> Tuple[float, float, float]:
+    """三维旋转(坐标点,旋转角度)
+
+    Args:
+        point3d (Vec3): 三维坐标点
+        a (Radian): 方向角
+        b (Radian): 俯仰角
+
+    Returns:
+        Tuple[float, float, float]: xyz坐标
+    """
+    x = point3d[0]
+    y = point3d[1]
+    z = point3d[2]
     x, y = rotate((x, y), a)
     x, z = rotate((x, z), b)
     return (x, y, z)
 
 
-def resize3d(aixs, n):  # 三维缩放(坐标点,缩放大小)
-    x = aixs[0] * n
-    y = aixs[1] * n
-    z = aixs[2] * n
+def resize3d(point3d: Vec3, scale: float) -> Tuple[float, float, float]:
+    """三维缩放(坐标点,缩放大小)
+
+    Args:
+        point3d (Vec3): 三维坐标点
+        scale (float): 缩放大小
+
+    Returns:
+        Tuple[float, float, float]: xyz坐标
+    """
+    x = point3d[0] * scale
+    y = point3d[1] * scale
+    z = point3d[2] * scale
     return (x, y, z)
 
 
-def move3d(aixs, x, y, z):  # 三维移动(坐标点,xyz方向移动距离)
-    x += aixs[0]
-    y += aixs[1]
-    z += aixs[2]
+def move3d(point3d: Vec3, x: float, y: float, z: float) -> Tuple[float, float, float]:
+    """三维移动(坐标点,xyz方向移动距离)
+
+    Args:
+        point3d (Vec3): 三维坐标点
+        x (float): x方向移动距离
+        y (float): y方向移动距离
+        z (float): z方向移动距离
+
+    Returns:
+        Tuple[float, float, float]: xyz坐标
+    """
+    x += point3d[0]
+    y += point3d[1]
+    z += point3d[2]
     return (x, y, z)
