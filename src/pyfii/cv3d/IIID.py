@@ -55,8 +55,8 @@ def iiid2iid(
     y: float,
     a: Degree,
     b: Degree,
-    center: Tuple[float, float, float] = (0, 0, 0),
-    d: Tuple[float, float] = (1, 0),
+    center: Vec3 = (0, 0, 0),
+    d: Vec2 = (1, 0),
 ) -> Tuple[float, float, float]:
     """三维坐标点投影在二维平面的位置(三维坐标点,二维平面原点xy,观察者面朝角度ab,观察者观察的中心位置)
 
@@ -66,11 +66,11 @@ def iiid2iid(
         y (float): 二维平面原点y
         a (Degree): 观察者面朝角度a
         b (Degree): 观察者面朝角度b
-        center (Tuple[float, float, float], optional): 观察者观察的中心位置. Defaults to (0, 0, 0).
-        d (Tuple[float, float], optional): _description_. Defaults to (1, 0).
+        center (Vec3, optional): 观察者观察的中心位置. Defaults to (0, 0, 0).
+        d (Vec2, optional): _description_. Defaults to (1, 0).
 
     Returns:
-        Tuple[ float, float, float ]: 三维坐标点投影在二维平面的位置
+        Tuple[ float, float, float ]: 第一二个输出为显示的xy坐标,第三个输出为点与观察者的相对距离(用于确定渲染的先后顺序,远先近后)
     """
     a = np.radians(a)
     b = np.radians(b)
@@ -102,9 +102,9 @@ def sphere(
     b: Degree,
     color: Scalar,
     r: int = 1,
-    center: Tuple[float, float, float] = (0, 0, 0),
+    center: Vec3 = (0, 0, 0),
     thickness: int = -1,
-    d: Tuple[float, float] = (1, 0),
+    d: Vec2 = (1, 0),
 ):
     """在图像上显示球体（点）(img,球心坐标,二维平面原点xy,观察者面朝角度ab,颜色,半径,观察者观察的中心位置)
 
@@ -117,9 +117,9 @@ def sphere(
         b (Degree): 观察者面朝角度b
         color (Scalar): 颜色
         r (int, optional): 半径. Defaults to 1.
-        center (Tuple[float, float, float], optional): 观察者观察的中心位置. Defaults to (0, 0, 0).
+        center (Vec3, optional): 观察者观察的中心位置. Defaults to (0, 0, 0).
         thickness (int, optional): 绘制的线宽，默认实心. Defaults to -1.
-        d (Tuple[float, float], optional): _description_. Defaults to (1, 0).
+        d (Vec2, optional): _description_. Defaults to (1, 0).
     """
     x1, y1, z = iiid2iid(point, x, y, a, b, center, d)
     if d[1] == 0:
@@ -139,9 +139,9 @@ def line(
     b: Degree,
     color: Scalar,
     thickness: int = 1,
-    center: Tuple[float, float, float] = (0, 0, 0),
+    center: Vec3 = (0, 0, 0),
     line_type: int = cv2.LINE_8,
-    d: Tuple[float, float] = (1, 0),
+    d: Vec2 = (1, 0),
 ):
     """在图像上显示线段(img,端点1坐标,端点2坐标,二维平面原点xy,观察者面朝角度ab,颜色,粗细,观察者观察的中心位置,直线类型)
 
@@ -155,9 +155,9 @@ def line(
         b (Degree): 观察者面朝角度b
         color (Scalar): 颜色
         thickness (int, optional): 绘制的线宽，默认实心. Defaults to 1.
-        center (Tuple[float, float, float], optional): 观察者观察的中心位置. Defaults to (0, 0, 0).
+        center (Vec3, optional): 观察者观察的中心位置. Defaults to (0, 0, 0).
         line_type (int, optional): 线的类型. Defaults to cv2.LINE_8.
-        d (Tuple[float, float], optional): _description_. Defaults to (1, 0).
+        d (Vec2, optional): _description_. Defaults to (1, 0).
     """
     x1, y1, z1 = iiid2iid(point1, x, y, a, b, center, d)
     x2, y2, z2 = iiid2iid(point2, x, y, a, b, center, d)
@@ -181,9 +181,9 @@ def ring(
     b: Degree,
     color: Scalar,
     r: int,
-    center: Tuple[float, float, float] = (0, 0, 0),
+    center: Vec3 = (0, 0, 0),
     thickness: int = 1,
-    d: Tuple[float, float] = (1, 0),
+    d: Vec2 = (1, 0),
     normal_vector: Vec3 = (0, 0, 1),
 ):
     """在图像上显示圆环
@@ -197,9 +197,9 @@ def ring(
         b (Degree): 观察者面朝角度b
         color (Scalar): 颜色
         r (int): 半径
-        center (Tuple[float, float, float], optional): 观察者观察的中心位置. Defaults to (0, 0, 0).
+        center (Vec3, optional): 观察者观察的中心位置. Defaults to (0, 0, 0).
         thickness (int, optional): 绘制的线宽，默认实心. Defaults to 1.
-        d (Tuple[float, float], optional): _description_. Defaults to (1, 0).
+        d (Vec2, optional): _description_. Defaults to (1, 0).
         normal_vector (Vec3, optional): 圆环平面的法向量. Defaults to (0, 0, 1).
     """
     x1, y1, z = iiid2iid(point, x, y, a, b, center, d)
@@ -274,8 +274,8 @@ def distance(
     y: float,
     A: Degree,
     B: Degree,
-    center: Tuple[float, float, float] = (0, 0, 0),
-    d: Tuple[float, float] = (1, 0),
+    center: Vec3 = (0, 0, 0),
+    d: Vec2 = (1, 0),
 ) -> float:
     """计算距离
 
@@ -285,8 +285,8 @@ def distance(
         y (float): 二维平面原点y
         A (Degree): 观察者面朝角度a
         B (Degree): 观察者面朝角度b
-        center (Tuple[float, float, float], optional): 观察者观察的中心位置. Defaults to (0, 0, 0).
-        d (Tuple[float, float], optional): _description_. Defaults to (1, 0).
+        center (Vec3, optional): 观察者观察的中心位置. Defaults to (0, 0, 0).
+        d (Vec2, optional): _description_. Defaults to (1, 0).
 
     Returns:
         float: 距离
