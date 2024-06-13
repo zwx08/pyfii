@@ -1,5 +1,5 @@
 import warnings
-from typing import Any, Callable, Literal, Optional, Union
+from typing import Any, Callable, Dict, List, Literal, Optional, Union
 
 def checkcolor(color):
     is_color = True
@@ -42,8 +42,8 @@ class DroneAction:
     timestamp:用来对齐灯光，如果无人机动作和灯光动作的时间戳相等，就会自动在时间轴上对齐
     """
     def __init__(self,
-                 action_callback:Callable,
-                 parameter:Union[list,map],
+                 action_callback:Callable[[Any], None],
+                 parameter:Union[list,dict],
                  timestamp:Optional[int]=None
                  ):
         self.action_callback = action_callback
@@ -65,8 +65,8 @@ class LightAction:
     order:如果为before则灯光在动作前，如果为after则灯光在动作后
     """
     def __init__(self,
-                 action_callback:Callable,
-                 parameter:Union[list,map],
+                 action_callback:Callable[[Any], None],
+                 parameter:Union[list, dict],
                  timestamp:Optional[int],
                  order:Literal['before', 'after']='before'
                  ):
@@ -75,7 +75,7 @@ class LightAction:
         self.timestamp = timestamp
         self.order = order
     
-    def key(self):
+    def key(self) -> str:
         """
         字典的键，唯一定义了灯光的时间
         """
@@ -138,8 +138,8 @@ class Drone:
         self.x,self.y,self.z=x,y,0
         self.outpy=''
 
-        self.action_list:list[DroneAction] = []
-        self.light_actions:map[LightAction] = dict()
+        self.action_list:List[DroneAction] = []
+        self.light_actions:Dict[str, LightAction] = dict()
         self.config=config
         self.time=0
 
@@ -169,7 +169,7 @@ class Drone:
         """
         self.action_list.append(action)
     
-    def append_action_simple(self, action_callback, parameter):
+    def append_action_simple(self, action_callback:Callable[[Any], None], parameter:Union[list, dict]):
         self.append_action(DroneAction(action_callback, parameter))
         
     def append_actions(self,
@@ -186,7 +186,8 @@ class Drone:
         添加一个灯光动作
         """
         self.light_actions[light.key()] = light
-    def append_lights(self, lights:list[LightAction]):
+        
+    def append_lights(self, lights:List[LightAction]):
         """
         添加多个灯光动作
         """
@@ -963,8 +964,8 @@ class Drone6:
         self.x,self.y,self.z=x,y,0
         self.outpy=''
 
-        self.action_list:list[DroneAction] = []
-        self.light_actions:map[LightAction] = dict()
+        self.action_list:List[DroneAction] = []
+        self.light_actions:Dict[str, LightAction] = dict()
         self.config=config
         self.time=0
 
@@ -994,11 +995,11 @@ class Drone6:
         """
         self.action_list.append(action)
     
-    def append_action_simple(self, action_callback, parameter):
+    def append_action_simple(self, action_callback:Callable[[Any], None], parameter:Union[list, dict]):
         self.append_action(DroneAction(action_callback, parameter))
         
     def append_actions(self,
-                       actions:list[DroneAction]
+                       actions:List[DroneAction]
                        ):
         """
         添加多个动作
@@ -1011,7 +1012,8 @@ class Drone6:
         添加一个灯光动作
         """
         self.light_actions[light.key()] = light
-    def append_lights(self, lights:list[LightAction]):
+        
+    def append_lights(self, lights:List[LightAction]):
         """
         添加多个灯光动作
         """
@@ -1543,7 +1545,7 @@ inittime('''+str(time)+''')
             self.inT=True
             self.outpy+='''magnet()
 '''
-        self.append_action(DroneAction(magnet_callback, [self], timestamp))
+        self.append_action(DroneAction(magnet_callback, [self, state], timestamp))
     
     def AllOn(self,color, timestamp = None):
         """
@@ -1566,7 +1568,7 @@ inittime('''+str(time)+''')
             self.inT=True
             self.outpy+='''AllOn()
 '''
-        self.append_action(DroneAction(AllOn_callback, [self], timestamp))
+        self.append_action(DroneAction(AllOn_callback, [self, color], timestamp))
 
     def AllOff(self,timestamp = None):
         """
