@@ -17,6 +17,12 @@ classifiers = [
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     "Operating System :: OS Independent",
 ]
+dependencies = ["opencv-python",
+"pyqt5",
+"tqdm",
+"numpy",
+"pygame",
+"ffmpy"]
 
 [project.urls]
 "Homepage" = "https://github.com/Kevin0412/pyfii"
