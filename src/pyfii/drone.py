@@ -13,7 +13,7 @@ def checkcolor(color):
         is_color = False
     if not is_color:
         raise Exception('Not a color.不是颜色。')
-    
+
 def normalize_colors(colors):
     for color in colors:
         checkcolor(color)
@@ -49,13 +49,13 @@ class DroneAction:
         self.action_callback = action_callback
         self.parameter = parameter
         self.timestamp = timestamp
-    
+
     def take_action(self):
         if type(self.parameter) == list:
             self.action_callback(*self.parameter)
         if type(self.parameter) == dict:
             self.action_callback(**self.parameter)
-    
+
 class LightAction:
     """
     灯光动作
@@ -74,7 +74,7 @@ class LightAction:
         self.parameter = parameter
         self.timestamp = timestamp
         self.order = order
-    
+
     def key(self) -> str:
         """
         字典的键，唯一定义了灯光的时间
@@ -168,10 +168,10 @@ class Drone:
         添加一个动作
         """
         self.action_list.append(action)
-    
+
     def append_action_simple(self, action_callback:Callable[[Any], None], parameter:Union[list, dict]):
         self.append_action(DroneAction(action_callback, parameter))
-        
+
     def append_actions(self,
                        actions:list[DroneAction]
                        ):
@@ -186,14 +186,14 @@ class Drone:
         添加一个灯光动作
         """
         self.light_actions[light.key()] = light
-        
+
     def append_lights(self, lights:List[LightAction]):
         """
         添加多个灯光动作
         """
         for light in lights:
             self.append_light(light)
-    
+
     def takeoff(self,time,z, timestamp = None):
         """
         起飞(x坐标,y坐标,起飞高度)
@@ -337,6 +337,33 @@ inittime('''+str(time)+''')
 '''
         self.append_action(DroneAction(move2_callback, [self, x,y,z], timestamp))
 
+    def moveOnDone(self, x, y, z, timestamp=None):
+        """
+        基于无人机移动(x坐标,y坐标,z坐标)
+        单位:cm
+        范围:x,y:0~560,z:80~250
+        必须在inittime(time)中
+        """
+        self.x, self.y, self.z = x, y, z
+        def moveOnDone_callback(self, x, y, z):
+            self.x, self.y, self.z = x, y, z
+            spaces='  '*(self.space+self.block)
+            if self.inT:
+                self.outputString += spaces+'''<next>
+    '''
+                self.block+=1
+                spaces+='  '
+            self.outputString += spaces+'''<block type="Goertek_Move">
+'''+spaces+'''  <field name="X">'''+str(x)+'''</field>
+'''+spaces+'''  <field name="Y">'''+str(y)+'''</field>
+'''+spaces+'''  <field name="Z">'''+str(z)+'''</field>
+'''
+            self.block+=1
+            self.inT=True
+            self.outpy+='''move2('''+str(x)+''','''+str(y)+''','''+str(z)+''')
+'''
+        self.append_action(DroneAction(moveOnDone_callback, [self, x,y,z], timestamp))
+
     def delay(self, time, timestamp = None):
         """
         等待(时间)
@@ -395,7 +422,7 @@ inittime('''+str(time)+''')
         必须在inittime(time)中
         """
         self.append_action(DroneAction(self.VelZ_callback, [v, a], timestamp))
-    
+
     def VelZ_callback(self, v, a):
         spaces='  '*(self.space+self.block)
         if self.inT:
@@ -410,7 +437,7 @@ inittime('''+str(time)+''')
         self.block+=1
         self.inT=True
         self.outpy+='''VelZ('''+str(v)+''','''+str(a)+''')
-''' 
+'''
     #warnings.warn("VelZ() is ignored in pyfii show.VelZ()在pyfii的模拟飞行中被忽略。",Warning,2)
 
     def AccXY(self,a, timestamp=None):
@@ -517,7 +544,7 @@ inittime('''+str(time)+''')
 '''
             self.block+=1
             self.inT=True
-            
+
         self.append_action(DroneAction(Yaw_callback, [self, a], timestamp))
 
 
@@ -572,7 +599,7 @@ inittime('''+str(time)+''')
             self.outpy+='''land()
 '''
         self.append_action(DroneAction(land_callback, [self], timestamp))
-        
+
     def end(self, timestamp=None):
         """
         结束
@@ -629,7 +656,7 @@ inittime('''+str(time)+''')
 '''
         self.append_action(DroneAction(nod_callback, [self, direction, distance], timestamp))
 
-    
+
     def SimpleHarmonic2(self,direction,amplitude, timestamp=None):
         """
         波浪运动 沿 direction 方向以整幅 amplitude cm 运动
@@ -655,7 +682,7 @@ inittime('''+str(time)+''')
 '''
         self.append_action(DroneAction(SimpleHarmonic2_callback, [self, direction, amplitude], timestamp))
 
-        
+
     def RoundInAir(self,startpos,centerpos,height,vilocity, timestamp=None):
         """
         绕圈飞行 起点 startpos 圆心 centerpos 高度 height 速度 vilocity(正逆时针,负逆时针)
@@ -737,7 +764,7 @@ inittime('''+str(time)+''')
 '''
                 self.block+=1
                 spaces+='  '
-            
+
             self.outputString += spaces+'''<block type="Goertek_AtomicLEDOff">
 '''+spaces+'''  <field name="id">'''+str(Id)+'''</field>
 '''
@@ -778,7 +805,7 @@ inittime('''+str(time)+''')
                     self.outputString += spaces+'''  <field name="color'''+str(c+1)+'''">'''+colors[c%len(colors)]+'''</field>
 '''
                 self.outpy+='''TurnOnAll('''+str(colors)+''')
-'''            
+'''
             else:
                 if type(colors)==tuple:
                     colors=rgb2str(colors)
@@ -923,7 +950,7 @@ inittime('''+str(time)+''')
             self.append_action(DroneAction(BlinkSlowAll_callback, [self, colors], timestamp))
         else:
             self.append_light(LightAction(BlinkSlowAll_callback, [self, colors], timestamp, order))
-    
+
     def HorseRace(self,colors, timestamp=None, order='before'):
         '''
         走马灯(颜色)
@@ -949,7 +976,7 @@ inittime('''+str(time)+''')
             self.append_action(DroneAction(HorseRace_callback, [self, colors], timestamp))
         else:
             self.append_light(LightAction(HorseRace_callback, [self, colors], timestamp, order))
-    
+
 class Drone6:
     def __init__(self,x=0,y=0,config=drone_config_6m):
         self.space = 0
@@ -994,10 +1021,10 @@ class Drone6:
         添加一个动作
         """
         self.action_list.append(action)
-    
+
     def append_action_simple(self, action_callback:Callable[[Any], None], parameter:Union[list, dict]):
         self.append_action(DroneAction(action_callback, parameter))
-        
+
     def append_actions(self,
                        actions:List[DroneAction]
                        ):
@@ -1012,14 +1039,14 @@ class Drone6:
         添加一个灯光动作
         """
         self.light_actions[light.key()] = light
-        
+
     def append_lights(self, lights:List[LightAction]):
         """
         添加多个灯光动作
         """
         for light in lights:
             self.append_light(light)
-    
+
     def takeoff(self,time,z, timestamp = None):
         """
         起飞(x坐标,y坐标,起飞高度)
@@ -1221,7 +1248,7 @@ inittime('''+str(time)+''')
         必须在inittime(time)中
         """
         self.append_action(DroneAction(self.VelZ_callback, [v, a], timestamp))
-    
+
     def VelZ_callback(self, v, a):
         spaces='  '*(self.space+self.block)
         if self.inT:
@@ -1236,7 +1263,7 @@ inittime('''+str(time)+''')
         self.block+=1
         self.inT=True
         self.outpy+='''VelZ('''+str(v)+''','''+str(a)+''')
-''' 
+'''
     #warnings.warn("VelZ() is ignored in pyfii show.VelZ()在pyfii的模拟飞行中被忽略。",Warning,2)
 
     def AccXY(self,a, timestamp=None):
@@ -1343,7 +1370,7 @@ inittime('''+str(time)+''')
 '''
             self.block+=1
             self.inT=True
-            
+
         self.append_action(DroneAction(Yaw_callback, [self, a], timestamp))
 
 
@@ -1398,7 +1425,7 @@ inittime('''+str(time)+''')
             self.outpy+='''land()
 '''
         self.append_action(DroneAction(land_callback, [self], timestamp))
-        
+
     def end(self, timestamp=None):
         """
         结束
@@ -1455,7 +1482,7 @@ inittime('''+str(time)+''')
 '''
         self.append_action(DroneAction(nod_callback, [self, direction, distance], timestamp))
 
-    
+
     def SimpleHarmonic2(self,direction,amplitude, timestamp=None):
         """
         波浪运动 沿 direction 方向以整幅 amplitude cm 运动
@@ -1481,7 +1508,7 @@ inittime('''+str(time)+''')
 '''
         self.append_action(DroneAction(SimpleHarmonic2_callback, [self, direction, amplitude], timestamp))
 
-        
+
     def RoundInAir(self,startpos,centerpos,height,vilocity, timestamp=None):
         """
         绕圈飞行 起点 startpos 圆心 centerpos 高度 height 速度 vilocity(正逆时针,负逆时针)
@@ -1546,7 +1573,7 @@ inittime('''+str(time)+''')
             self.outpy+='''magnet()
 '''
         self.append_action(DroneAction(magnet_callback, [self, state], timestamp))
-    
+
     def AllOn(self,color, timestamp = None):
         """
         全部点亮
