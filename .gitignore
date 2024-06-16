@@ -12,3 +12,6 @@ gui.png
 **/output
 4m_tests
 .history
+*.spec
+*/dist
+*/build
