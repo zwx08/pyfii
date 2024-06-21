@@ -18,8 +18,9 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = ["opencv-python",
+"pyqt5",
 "tqdm",
-"numpy",
+"numpy==1.*",
 "pygame",
 "ffmpy"]
 
