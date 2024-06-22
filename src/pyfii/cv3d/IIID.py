@@ -123,7 +123,7 @@ def sphere(
     """
     x1, y1, z = iiid2iid(point, x, y, a, b, center, d)
     if d[1] == 0:
-        cv2.circle(img, (int(x1), int(y1)), r, color, thickness)
+        cv2.circle(img, (int(x1), int(y1)), int(r+0.5), color, thickness)
     else:
         if z > 0:
             cv2.circle(img, (int(x1), int(y1)), int(r * d[1] / z + 1), color, thickness)
