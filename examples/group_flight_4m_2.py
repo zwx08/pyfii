@@ -84,7 +84,7 @@ F=pf.Fii(name,ds)
 F.save(field=4)
 
 # 读取
-data,t0,music,field=pf.read_fii(name,getfield=True)
+data,t0,music,field,*_=pf.read_fii(name,getfield=True)
 # 储存二维模拟视频
 pf.show(data,t0,music,field=field,save=name,FPS=25)
 # 储存三维模拟视频

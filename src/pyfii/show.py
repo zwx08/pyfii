@@ -236,6 +236,7 @@ def getGui(field,size):
     return img
 
 def show(data,t0,music,field=6,device="F400",show=True,save="",FPS=200,max_fps=200,ThreeD=False,imshow=[120,-15],d=(600,450),track=[],skin=1):
+    font=cv2.FONT_HERSHEY_SIMPLEX
     t0=int(t0+0.5)+3*max_fps
     if len(save)>0 and not ThreeD:  # save 2D video
         show=False

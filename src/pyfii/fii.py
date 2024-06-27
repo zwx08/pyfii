@@ -3,6 +3,7 @@ import shutil
 from .read import dots2line
 import warnings
 import logging
+from .drone import *
 
 class Fii:
     def __init__(self,path,drones,music=''):
@@ -37,8 +38,17 @@ class Fii:
                 file=open(self.path+'/'+self.name+'.fii',"w",encoding='utf-8')
             file.write('''<?xml version="1.0" encoding="utf-8"?>
 <GoertekGraphicXml>
-  <DeviceType DeviceType="F400" />
-  <AreaL AreaL="'''+str(field)+'''00" />
+''')        
+            if isinstance(self.ds[0],Drone):
+                file.write('''  <DeviceType DeviceType="F400" />
+''')
+            elif isinstance(self.ds[0],Drone6):
+                file.write('''  <DeviceType DeviceType="F600" />
+''')
+            else:
+                raise(Exception("Empty List ot Error Drone Type!无人机列表为空或无人机型号不支持"))
+
+            file.write('''  <AreaL AreaL="'''+str(field)+'''00" />
   <AreaW AreaW="'''+str(field)+'''00" />
   <AreaH AreaH="300" />
 ''')

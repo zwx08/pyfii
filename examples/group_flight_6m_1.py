@@ -48,7 +48,7 @@ name='output/group_flight_6m_1'
 F=pf.Fii(name,[d1])
 F.save(field=6)
 
-data,t0,music,field=pf.read_fii(name,getfield=True)
+data,t0,music,field,*_=pf.read_fii(name,getfield=True)
 pf.show(data,t0,music,field=field,save=name,FPS=25)
 pf.show(data,t0,music,field=field,save=name+'_3D',ThreeD=True,imshow=[90,0],d=(600,450),FPS=25)
 
