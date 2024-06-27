@@ -9,6 +9,7 @@ gui.png
 *.mp4
 .vscode
 /tests/gui_4m.py
+/tests/test_gui.py
 **/output
 4m_tests
 .history

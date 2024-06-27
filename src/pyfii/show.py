@@ -194,6 +194,47 @@ def drone3d(aixs,x,y,z,c,a,led=(-1,-1,-1),acceleration=(0,0,0),g=np.array([0,0,-
     if int((n%765)/255)==2:
         return(x,255-n%255,n%255)'''
 
+def getGui(field,size):
+    size=int(size)
+    img=np.zeros((600*size,1200*size,3),np.uint8)
+    cv2.rectangle(img,(0,0),(600*size,600*size),(255,255,255),size)
+    for x in range(12):
+        for y in range(12):
+            if x==11 and y!=11:
+                cv2.rectangle(img,(570*size,(580-y*50)*size),(580*size,(580-(y*50+50))*size),(63+128*((x+y)%2),63+128*((x+y)%2),63+128*((x+y)%2)),-1)
+            elif x!=11 and y==11:
+                cv2.rectangle(img,((x*50+20)*size,30*size),((x*50+70)*size,20*size),(63+128*((x+y)%2),63+128*((x+y)%2),63+128*((x+y)%2)),-1)
+            elif x==11 and y==11:
+                cv2.rectangle(img,(570*size,30*size),(580*size,20*size),(63+128*((x+y)%2),63+128*((x+y)%2),63+128*((x+y)%2)),-1)
+            else:
+                cv2.rectangle(img,((x*50+20)*size,(580-y*50)*size),((x*50+70)*size,(580-(y*50+50))*size),(63+128*((x+y)%2),63+128*((x+y)%2),63+128*((x+y)%2)),-1)
+    cv2.rectangle(img,(600*size,0),(1200*size,270*size),(255,255,255),size)
+    cv2.rectangle(img,(600*size,270*size),(1200*size,540*size),(255,255,255),size)
+    for x in range(0,18):
+        cv2.line(img,(600*size,(x*10+20)*size),(620*size,(x*10+20)*size),(255,255,255),size)
+        cv2.line(img,(600*size,(x*10+290)*size),(620*size,(x*10+290)*size),(255,255,255),size)
+        if x%5==0:
+            cv2.line(img,(600*size,(x*10+20)*size),(640*size,(x*10+20)*size),(255,255,255),size)
+            cv2.line(img,(600*size,(x*10+290)*size),(640*size,(x*10+290)*size),(255,255,255),size)
+    for a in range(7):
+        if a<4:
+            for x in range(150):
+                cv2.line(img,((600+a*150+x)*size,540*size),((600+a*150+x)*size,570*size),color(a,(x-75)/75*125),size)
+        else:
+            for x in range(150):
+                cv2.line(img,((600+(a-4)*150+x)*size,570*size),((600+(a-4)*150+x)*size,600*size),color(a,(x-75)/75*125),size)
+    for x in range(4):
+        cv2.rectangle(img,((600+x*150)*size,540*size),((750+x*150)*size,570*size),(255,255,255),size)
+        cv2.rectangle(img,((600+x*150)*size,570*size),((750+x*150)*size,600*size),(255,255,255),size)
+    cv2.rectangle(img,(1120*size,570*size),(1200*size,600*size),(255,255,255),size)
+    if field==4:
+        cv2.rectangle(img,(20*size,580*size),(380*size,220*size),(255,255,255),size)
+        cv2.rectangle(img,(1000*size,0),(1000*size,540*size),(255,255,255),size)
+    font=cv2.FONT_HERSHEY_SIMPLEX
+    cv2.putText(img,'front',(600*size,260*size), font, size,(255,255,255),size)
+    cv2.putText(img,'right',(600*size,530*size), font, size,(255,255,255),size)
+    return img
+
 def show(data,t0,music,field=6,device="F400",show=True,save="",FPS=200,max_fps=200,ThreeD=False,imshow=[120,-15],d=(600,450),track=[],skin=1):
     t0=int(t0+0.5)+3*max_fps
     if len(save)>0 and not ThreeD:  # save 2D video
@@ -206,43 +247,7 @@ def show(data,t0,music,field=6,device="F400",show=True,save="",FPS=200,max_fps=2
             video = cv2.VideoWriter(save+"_process.mp4", cv2.VideoWriter_fourcc('M', 'P', '4', 'V'), FPS,(3840,1920))
     if (show and not ThreeD) or len(save)>0:
         # 生成gui.png   2D 背景图
-        img=np.zeros((600,1200,3),np.uint8)
-        cv2.rectangle(img,(0,0),(600,600),(255,255,255),1)
-        for x in range(12):
-            for y in range(12):
-                if x==11 and y!=11:
-                    cv2.rectangle(img,(570,580-y*50),(580,580-(y*50+50)),(63+128*((x+y)%2),63+128*((x+y)%2),63+128*((x+y)%2)),-1)
-                elif x!=11 and y==11:
-                    cv2.rectangle(img,(x*50+20,30),(x*50+70,20),(63+128*((x+y)%2),63+128*((x+y)%2),63+128*((x+y)%2)),-1)
-                elif x==11 and y==11:
-                    cv2.rectangle(img,(570,30),(580,20),(63+128*((x+y)%2),63+128*((x+y)%2),63+128*((x+y)%2)),-1)
-                else:
-                    cv2.rectangle(img,(x*50+20,580-y*50),(x*50+70,580-(y*50+50)),(63+128*((x+y)%2),63+128*((x+y)%2),63+128*((x+y)%2)),-1)
-        cv2.rectangle(img,(600,0),(1200,270),(255,255,255),1)
-        cv2.rectangle(img,(600,270),(1200,540),(255,255,255),1)
-        for x in range(0,18):
-            cv2.rectangle(img,(600,x*10+20),(620,x*10+20),(255,255,255),-1)
-            cv2.rectangle(img,(600,x*10+290),(620,x*10+290),(255,255,255),-1)
-            if x%5==0:
-                cv2.rectangle(img,(600,x*10+20),(640,x*10+20),(255,255,255),-1)
-                cv2.rectangle(img,(600,x*10+290),(640,x*10+290),(255,255,255),-1)
-        for a in range(7):
-            if a<4:
-                for x in range(150):
-                    cv2.rectangle(img,(600+a*150+x,540),(600+a*150+x,570),color(a,(x-75)/75*125),-1)
-            else:
-                for x in range(150):
-                    cv2.rectangle(img,(600+(a-4)*150+x,570),(600+(a-4)*150+x,600),color(a,(x-75)/75*125),-1)
-        for x in range(4):
-            cv2.rectangle(img,(600+x*150,540),(750+x*150,570),(255,255,255),1)
-            cv2.rectangle(img,(600+x*150,570),(750+x*150,600),(255,255,255),1)
-        cv2.rectangle(img,(1120,570),(1200,600),(255,255,255),1)
-        if field==4:
-            cv2.rectangle(img,(20,580),(380,220),(255,255,255),1)
-            cv2.rectangle(img,(1000,0),(1000,540),(255,255,255),1)
-        font=cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(img,'front',(600,260), font, 1,(255,255,255),1)
-        cv2.putText(img,'right',(600,530), font, 1,(255,255,255),1)
+        img=getGui(field,size=1)
         cv2.imwrite('gui.png',img)
         #生成可视化界面↑
     if ThreeD:
