@@ -4,3 +4,4 @@ tqdm
 numpy == 1.*
 pygame
 ffmpy
+pyautogui
