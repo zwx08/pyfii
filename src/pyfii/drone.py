@@ -125,7 +125,7 @@ drone_config_4m={
 }
 
 class Drone:
-    def __init__(self,x=0,y=0,config=drone_config_6m):
+    def __init__(self,x=0,y=0,config=drone_config_6m,ip="127.0.0.1"):
         self.space = 0
         self.block = 0
         self.inT = False
@@ -142,6 +142,7 @@ class Drone:
         self.light_actions:Dict[str, LightAction] = dict()
         self.config=config
         self.time=0
+        self.ip=ip
 
     def outRange(self,n,nRange):
         return n>self.config[nRange][1] or n<self.config[nRange][0]
@@ -951,7 +952,7 @@ inittime('''+str(time)+''')
             self.append_light(LightAction(HorseRace_callback, [self, colors], timestamp, order))
     
 class Drone6:
-    def __init__(self,x=0,y=0,config=drone_config_6m):
+    def __init__(self,x=0,y=0,config=drone_config_6m,ip="127.0.0.1"):
         self.space = 0
         self.block = 0
         self.inT = False
@@ -968,6 +969,7 @@ class Drone6:
         self.light_actions:Dict[str, LightAction] = dict()
         self.config=config
         self.time=0
+        self.ip=ip
 
     def outRange(self,n,nRange):
         return n>self.config[nRange][1] or n<self.config[nRange][0]
