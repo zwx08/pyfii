@@ -6,6 +6,7 @@ sys.path.append(path)
 import pyfii as pf
 
 d1=pf.Drone(40,40,pf.drone_config_6m)
+d1.ip="192.168.51.51"
 
 d1.takeoff(1,80)
 
@@ -48,7 +49,7 @@ name='output/group_flight_6m_1'
 F=pf.Fii(name,[d1])
 F.save(field=6)
 
-data,t0,music,field=pf.read_fii(name,getfield=True)
+data,t0,music,field,*_=pf.read_fii(name,getfield=True)
 pf.show(data,t0,music,field=field,save=name,FPS=25)
 pf.show(data,t0,music,field=field,save=name+'_3D',ThreeD=True,imshow=[90,0],d=(600,450),FPS=25)
 

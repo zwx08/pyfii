@@ -6,13 +6,13 @@ sys.path.append(path)
 import pyfii as pf
 
 # 七架F400,6m毯
-d1=pf.Drone(0,0,pf.drone_config_6m)
-d2=pf.Drone(0,0,pf.drone_config_6m)
-d3=pf.Drone(0,0,pf.drone_config_6m)
-d4=pf.Drone(0,0,pf.drone_config_6m)
-d5=pf.Drone(0,0,pf.drone_config_6m)
-d6=pf.Drone(0,0,pf.drone_config_6m)
-d7=pf.Drone(0,0,pf.drone_config_6m)
+d1=pf.Drone(0,0,pf.drone_config_6m,"192.168.51.51")
+d2=pf.Drone(0,0,pf.drone_config_6m,"192.168.51.52")
+d3=pf.Drone(0,0,pf.drone_config_6m,"192.168.51.53")
+d4=pf.Drone(0,0,pf.drone_config_6m,"192.168.51.54")
+d5=pf.Drone(0,0,pf.drone_config_6m,"192.168.51.55")
+d6=pf.Drone(0,0,pf.drone_config_6m,"192.168.51.56")
+d7=pf.Drone(0,0,pf.drone_config_6m,"192.168.51.57")
 
 # 无人机列表
 ds=[d1,d2,d3,d4,d5,d6,d7]

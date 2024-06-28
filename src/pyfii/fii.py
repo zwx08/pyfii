@@ -3,6 +3,16 @@ import shutil
 from .read import dots2line
 import warnings
 import logging
+from .drone import *
+
+def ip2ipFii(ip):
+    ipfii=''
+    ip=ip.split(".")
+    if ip[-2]!='0':
+        ipfii+=ip[-2]
+    ipfii+='0'*(3-len(ip[-1]))
+    ipfii+=ip[-1]
+    return ipfii
 
 class Fii:
     def __init__(self,path,drones,music=''):
@@ -37,8 +47,23 @@ class Fii:
                 file=open(self.path+'/'+self.name+'.fii',"w",encoding='utf-8')
             file.write('''<?xml version="1.0" encoding="utf-8"?>
 <GoertekGraphicXml>
-  <DeviceType DeviceType="F400" />
-  <AreaL AreaL="'''+str(field)+'''00" />
+''')        
+            if isinstance(self.ds[0],Drone):
+                file.write('''  <DeviceType DeviceType="F400" />
+''')
+                for d in self.ds:
+                    if not isinstance(d,Drone):
+                        raise(Exception("F400 and F600 can't fly together. F400与F600不能一起飞。"))
+            elif isinstance(self.ds[0],Drone6):
+                file.write('''  <DeviceType DeviceType="F600" />
+''')
+                for d in self.ds:
+                    if not isinstance(d,Drone6):
+                        raise(Exception("F400 and F600 can't fly together. F400与F600不能一起飞。"))
+            else:
+                raise(Exception("Error Drone Type! 无人机型号不支持"))
+
+            file.write('''  <AreaL AreaL="'''+str(field)+'''00" />
   <AreaW AreaW="'''+str(field)+'''00" />
   <AreaH AreaH="300" />
 ''')
@@ -50,7 +75,7 @@ class Fii:
                 file.write('  <Actions actionname="动作组'+str(k)+'" />')
                 file.write('\n')
                 file.write('''  <ActionFlight actionfname="动作组'''+str(k)+'''无人机'''+str(k)+'''" />
-  <ActionFlightID actionfid="动作组'''+str(k)+'''无人机'''+str(k)+'''UAVID'''+str(k)+'''00'''+str(k)+'''" />
+  <ActionFlightID actionfid="动作组'''+str(k)+'''无人机'''+str(k)+'''UAVID'''+ip2ipFii(d.ip)+'''" />
   <ActionFlightPosX actionfX="动作组'''+str(k)+'''无人机'''+str(k)+'''pos'''+str(d.X)+'''" />
   <ActionFlightPosY actionfY="动作组'''+str(k)+'''无人机'''+str(k)+'''pos'''+str(d.Y)+'''" />
   <ActionFlightPosZ actionfZ="动作组'''+str(k)+'''无人机'''+str(k)+'''pos0" />

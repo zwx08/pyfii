@@ -5,6 +5,7 @@ import uuid
 import warnings
 import shutil
 
+import pyautogui
 import cv2
 import tqdm
 import numpy as np
@@ -69,32 +70,32 @@ def iiid_rotate(a,g=np.array([0,0,-980])):# 无人机旋转
 
     return rotate_matrix
 
-def draw_drone(img,x,y,color,a=0,led=(-1,-1,-1),up=False,skin=1,device="F400"):
+def draw_drone(img,x,y,color,a=0,led=(-1,-1,-1),up=False,skin=1,device="F400",size=1):
     if device=="F400":
         if skin==0:
             if up:
-                cv2.circle(img,(int(x),int(y)),15,color,-1)
+                cv2.circle(img,(int(x*size),int(y*size)),15*size,color,-1)
             else:
-                cv2.rectangle(img,(int(x)-15,int(y)+5),(int(x)+15,int(y)-5),color,-1)
+                cv2.rectangle(img,(int((x-15)*size),int((y+5)*size)),(int((x+15)*size),int((y-5)*size)),color,-1)
         elif skin==1:
             if up:
-                cv2.circle(img,(int(x-21/2*np.cos(np.pi/4+a)),int(y+21/2*np.sin(np.pi/4+a))),8,color,1)
-                cv2.circle(img,(int(x-21/2*np.cos(3*np.pi/4+a)),int(y+21/2*np.sin(3*np.pi/4+a))),8,color,1)
-                cv2.circle(img,(int(x-21/2*np.cos(-3*np.pi/4+a)),int(y+21/2*np.sin(-3*np.pi/4+a))),8,color,1)
-                cv2.circle(img,(int(x-21/2*np.cos(-np.pi/4+a)),int(y+21/2*np.sin(-np.pi/4+a))),8,color,1)
-                cv2.line(img,(int(x-21/2*np.cos(np.pi/4+a)),int(y+21/2*np.sin(np.pi/4+a))),(int(x-21/2*np.cos(-3*np.pi/4+a)),int(y+21/2*np.sin(-3*np.pi/4+a))),color,1)
-                cv2.line(img,(int(x-21/2*np.cos(-np.pi/4+a)),int(y+21/2*np.sin(-np.pi/4+a))),(int(x-21/2*np.cos(3*np.pi/4+a)),int(y+21/2*np.sin(3*np.pi/4+a))),color,1)
+                cv2.circle(img,(int((x-21/2*np.cos(np.pi/4+a))*size),int((y+21/2*np.sin(np.pi/4+a))*size)),8*size,color,size)
+                cv2.circle(img,(int((x-21/2*np.cos(3*np.pi/4+a))*size),int((y+21/2*np.sin(3*np.pi/4+a))*size)),8*size,color,size)
+                cv2.circle(img,(int((x-21/2*np.cos(-3*np.pi/4+a))*size),int((y+21/2*np.sin(-3*np.pi/4+a))*size)),8*size,color,size)
+                cv2.circle(img,(int((x-21/2*np.cos(-np.pi/4+a))*size),int((y+21/2*np.sin(-np.pi/4+a))*size)),8*size,color,size)
+                cv2.line(img,(int((x-21/2*np.cos(np.pi/4+a))*size),int((y+21/2*np.sin(np.pi/4+a))*size)),(int((x-21/2*np.cos(-3*np.pi/4+a))*size),int((y+21/2*np.sin(-3*np.pi/4+a))*size)),color,size)
+                cv2.line(img,(int((x-21/2*np.cos(-np.pi/4+a))*size),int((y+21/2*np.sin(-np.pi/4+a))*size)),(int((x-21/2*np.cos(3*np.pi/4+a))*size),int((y+21/2*np.sin(3*np.pi/4+a))*size)),color,size)
                 if led[0]>-1:
-                    cv2.circle(img,(int(x),int(y)),5,led,-1)
+                    cv2.circle(img,(int(x*size),int(y*size)),5*size,led,-1)
             else:
-                cv2.ellipse(img,(int(x+21/(2**0.5)/2),int(y-1/4*7.6)),(8,2),0,0,360,color,1)
-                cv2.ellipse(img,(int(x-21/(2**0.5)/2),int(y-1/4*7.6)),(8,2),0,0,360,color,1)
-                cv2.ellipse(img,(int(x-21/(2**0.5)/2),int(y-3/4*7.6)),(8,2),0,0,360,color,1)
-                cv2.ellipse(img,(int(x+21/(2**0.5)/2),int(y-3/4*7.6)),(8,2),0,0,360,color,1)
-                cv2.line(img,(int(x+21/(2**0.5)/2),int(y-1/4*7.6)),(int(x-21/(2**0.5)/2),int(y-3/4*7.6)),color,1)
-                cv2.line(img,(int(x-21/(2**0.5)/2),int(y-1/4*7.6)),(int(x+21/(2**0.5)/2),int(y-3/4*7.6)),color,1)
+                cv2.ellipse(img,(int((x+21/(2**0.5)/2)*size),int((y-1/4*7.6)*size)),(8*size,2*size),0,0,360,color,size)
+                cv2.ellipse(img,(int((x-21/(2**0.5)/2)*size),int((y-1/4*7.6)*size)),(8*size,2*size),0,0,360,color,size)
+                cv2.ellipse(img,(int((x-21/(2**0.5)/2)*size),int((y-3/4*7.6)*size)),(8*size,2*size),0,0,360,color,size)
+                cv2.ellipse(img,(int((x+21/(2**0.5)/2)*size),int((y-3/4*7.6)*size)),(8*size,2*size),0,0,360,color,size)
+                cv2.line(img,(int((x+21/(2**0.5)/2)*size),int((y-1/4*7.6)*size)),(int((x-21/(2**0.5)/2)*size),int((y-3/4*7.6)*size)),color,size)
+                cv2.line(img,(int((x-21/(2**0.5)/2)*size),int((y-1/4*7.6)*size)),(int((x+21/(2**0.5)/2)*size),int((y-3/4*7.6)*size)),color,size)
                 if led[0]>-1:
-                    cv2.circle(img,(int(x),int(y-1/2*7.6)),5,led,-1)
+                    cv2.circle(img,(int(x*size),int((y-1/2*7.6)*size)),5*size,led,-1)
         elif skin==2:
             if up:
                 red_square=np.array([[x+16*np.cos(a),y+16*np.sin(a)],[x+16*np.cos(a+np.pi/2),y+16*np.sin(a+np.pi/2)],[x+16*np.cos(a+np.pi),y+16*np.sin(a+np.pi)],[x+16*np.cos(a-np.pi/2),y+16*np.sin(a-np.pi/2)]],np.int32)
@@ -123,23 +124,23 @@ def draw_drone(img,x,y,color,a=0,led=(-1,-1,-1),up=False,skin=1,device="F400"):
                     cv2.circle(img,(int(x),int(y-1/2*7.6)),5,led,-1)
     elif device=="F600":
         if up:
-            cv2.circle(img,(int(x-12.6/2*np.cos(np.pi/4+a)),int(y+12.6/2*np.sin(np.pi/4+a))),5,color,1)
-            cv2.circle(img,(int(x-12.6/2*np.cos(3*np.pi/4+a)),int(y+12.6/2*np.sin(3*np.pi/4+a))),5,color,1)
-            cv2.circle(img,(int(x-12.6/2*np.cos(-3*np.pi/4+a)),int(y+12.6/2*np.sin(-3*np.pi/4+a))),5,color,1)
-            cv2.circle(img,(int(x-12.6/2*np.cos(-np.pi/4+a)),int(y+12.6/2*np.sin(-np.pi/4+a))),5,color,1)
-            cv2.line(img,(int(x-12.6/2*np.cos(np.pi/4+a)),int(y+12.6/2*np.sin(np.pi/4+a))),(int(x-12.6/2*np.cos(-3*np.pi/4+a)),int(y+12.6/2*np.sin(-3*np.pi/4+a))),color,1)
-            cv2.line(img,(int(x-12.6/2*np.cos(-np.pi/4+a)),int(y+12.6/2*np.sin(-np.pi/4+a))),(int(x-12.6/2*np.cos(3*np.pi/4+a)),int(y+12.6/2*np.sin(3*np.pi/4+a))),color,1)
+            cv2.circle(img,(int((x-12.6/2*np.cos(np.pi/4+a))*size),int((y+12.6/2*np.sin(np.pi/4+a))*size)),5*size,color,size)
+            cv2.circle(img,(int((x-12.6/2*np.cos(3*np.pi/4+a))*size),int((y+12.6/2*np.sin(3*np.pi/4+a))*size)),5*size,color,size)
+            cv2.circle(img,(int((x-12.6/2*np.cos(-3*np.pi/4+a))*size),int((y+12.6/2*np.sin(-3*np.pi/4+a))*size)),5*size,color,size)
+            cv2.circle(img,(int((x-12.6/2*np.cos(-np.pi/4+a))*size),int((y+12.6/2*np.sin(-np.pi/4+a))*size)),5*size,color,size)
+            cv2.line(img,(int((x-12.6/2*np.cos(np.pi/4+a))*size),int((y+12.6/2*np.sin(np.pi/4+a))*size)),(int((x-12.6/2*np.cos(-3*np.pi/4+a))*size),int((y+12.6/2*np.sin(-3*np.pi/4+a))*size)),color,size)
+            cv2.line(img,(int((x-12.6/2*np.cos(-np.pi/4+a))*size),int((y+12.6/2*np.sin(-np.pi/4+a))*size)),(int((x-12.6/2*np.cos(3*np.pi/4+a))*size),int((y+12.6/2*np.sin(3*np.pi/4+a))*size)),color,size)
             if led[0]>-1:
-                cv2.circle(img,(int(x),int(y)),3,led,-1)
+                cv2.circle(img,(int(x*size),int(y*size)),3*size,led,-1)
         else:
-            cv2.ellipse(img,(int(x+12.6/(2**0.5)/2),int(y-1/4*4.0)),(5,2),0,0,360,color,1)
-            cv2.ellipse(img,(int(x-12.6/(2**0.5)/2),int(y-1/4*4.0)),(5,2),0,0,360,color,1)
-            cv2.ellipse(img,(int(x-12.6/(2**0.5)/2),int(y-3/4*4.0)),(5,2),0,0,360,color,1)
-            cv2.ellipse(img,(int(x+12.6/(2**0.5)/2),int(y-3/4*4.0)),(5,2),0,0,360,color,1)
-            cv2.line(img,(int(x+12.6/(2**0.5)/2),int(y-1/4*4.0)),(int(x-21/(2**0.5)/2),int(y-3/4*4.0)),color,1)
-            cv2.line(img,(int(x-12.6/(2**0.5)/2),int(y-1/4*4.0)),(int(x+21/(2**0.5)/2),int(y-3/4*4.0)),color,1)
+            cv2.ellipse(img,(int((x+12.6/(2**0.5)/2)*size),int((y-1/4*4.0)*size)),(5*size,2*size),0,0,360,color,size)
+            cv2.ellipse(img,(int((x-12.6/(2**0.5)/2)*size),int((y-1/4*4.0)*size)),(5*size,2*size),0,0,360,color,size)
+            cv2.ellipse(img,(int((x-12.6/(2**0.5)/2)*size),int((y-3/4*4.0)*size)),(5*size,2*size),0,0,360,color,size)
+            cv2.ellipse(img,(int((x+12.6/(2**0.5)/2)*size),int((y-3/4*4.0)*size)),(5*size,2*size),0,0,360,color,size)
+            cv2.line(img,(int((x+12.6/(2**0.5)/2)*size),int((y-1/4*4.0)*size)),(int((x-21/(2**0.5)/2)*size),int((y-3/4*4.0)*size)),color,size)
+            cv2.line(img,(int((x-12.6/(2**0.5)/2)*size),int((y-1/4*4.0)*size)),(int((x+21/(2**0.5)/2)*size),int((y-3/4*4.0)*size)),color,size)
             if led[0]>-1:
-                cv2.circle(img,(int(x),int(y-1/2*4.0)),3,led,-1)
+                cv2.circle(img,(int(x*size),int((y-1/2*4.0)*size)),3*size,led,-1)
     else:
         raise(Exception("Error Drone Type!无人机型号不支持"))
 
@@ -194,11 +195,65 @@ def drone3d(aixs,x,y,z,c,a,led=(-1,-1,-1),acceleration=(0,0,0),g=np.array([0,0,-
     if int((n%765)/255)==2:
         return(x,255-n%255,n%255)'''
 
-def show(data,t0,music,field=6,device="F400",show=True,save="",FPS=200,max_fps=200,ThreeD=False,imshow=[120,-15],d=(600,450),track=[],skin=1):
+def getGui(field,size):
+    size=int(size)
+    img=np.zeros((600*size,1200*size,3),np.uint8)
+    cv2.rectangle(img,(0,0),(600*size,600*size),(255,255,255),size)
+    for x in range(12):
+        for y in range(12):
+            if x==11 and y!=11:
+                cv2.rectangle(img,(570*size,(580-y*50)*size),(580*size,(580-(y*50+50))*size),(63+128*((x+y)%2),63+128*((x+y)%2),63+128*((x+y)%2)),-1)
+            elif x!=11 and y==11:
+                cv2.rectangle(img,((x*50+20)*size,30*size),((x*50+70)*size,20*size),(63+128*((x+y)%2),63+128*((x+y)%2),63+128*((x+y)%2)),-1)
+            elif x==11 and y==11:
+                cv2.rectangle(img,(570*size,30*size),(580*size,20*size),(63+128*((x+y)%2),63+128*((x+y)%2),63+128*((x+y)%2)),-1)
+            else:
+                cv2.rectangle(img,((x*50+20)*size,(580-y*50)*size),((x*50+70)*size,(580-(y*50+50))*size),(63+128*((x+y)%2),63+128*((x+y)%2),63+128*((x+y)%2)),-1)
+    cv2.rectangle(img,(600*size,0),(1200*size,270*size),(255,255,255),size)
+    cv2.rectangle(img,(600*size,270*size),(1200*size,540*size),(255,255,255),size)
+    for x in range(0,18):
+        cv2.line(img,(600*size,(x*10+20)*size),(620*size,(x*10+20)*size),(255,255,255),size)
+        cv2.line(img,(600*size,(x*10+290)*size),(620*size,(x*10+290)*size),(255,255,255),size)
+        if x%5==0:
+            cv2.line(img,(600*size,(x*10+20)*size),(640*size,(x*10+20)*size),(255,255,255),size)
+            cv2.line(img,(600*size,(x*10+290)*size),(640*size,(x*10+290)*size),(255,255,255),size)
+    for a in range(7):
+        if a<4:
+            for x in range(150):
+                cv2.line(img,((600+a*150+x)*size,540*size),((600+a*150+x)*size,570*size),color(a,(x-75)/75*125),size)
+        else:
+            for x in range(150):
+                cv2.line(img,((600+(a-4)*150+x)*size,570*size),((600+(a-4)*150+x)*size,600*size),color(a,(x-75)/75*125),size)
+    for x in range(4):
+        cv2.rectangle(img,((600+x*150)*size,540*size),((750+x*150)*size,570*size),(255,255,255),size)
+        cv2.rectangle(img,((600+x*150)*size,570*size),((750+x*150)*size,600*size),(255,255,255),size)
+    cv2.rectangle(img,(1120*size,570*size),(1200*size,600*size),(255,255,255),size)
+    if field==4:
+        cv2.rectangle(img,(20*size,580*size),(380*size,220*size),(255,255,255),size)
+        cv2.rectangle(img,(1000*size,0),(1000*size,540*size),(255,255,255),size)
+    font=cv2.FONT_HERSHEY_SIMPLEX
+    cv2.putText(img,'front',(600*size,260*size), font, size,(255,255,255),size)
+    cv2.putText(img,'right',(600*size,530*size), font, size,(255,255,255),size)
+    return img
+
+def show(data,t0,music,field=6,device="F400",show=True,save="",FPS=200,max_fps=200,ThreeD=False,imshow=[120,-15],d=(600,450),track=[],skin=1,size=0,ssaa=1):
+    size=int(size)
+    ssaa=int(ssaa)
+    if size==0:
+        if len(save)>0:
+            size=1
+        else:
+            screenWidth, screenHeight = pyautogui.size()
+            while screenHeight>600*size/ssaa and screenWidth>1200*size/ssaa:
+                size+=1
+            size-=1
+            while (600*size)%ssaa!=0:
+                size-=1
+    font=cv2.FONT_HERSHEY_SIMPLEX
     t0=int(t0+0.5)+3*max_fps
     if len(save)>0 and not ThreeD:  # save 2D video
         show=False
-        video = cv2.VideoWriter(save+"_process.mp4", cv2.VideoWriter_fourcc('M', 'P', '4', 'V'), FPS,(1200,600))
+        video = cv2.VideoWriter(save+"_process.mp4", cv2.VideoWriter_fourcc('M', 'P', '4', 'V'), FPS,(int(1200*size/ssaa),int(600*size/ssaa)))
     if len(save)>0 and ThreeD:      # save 3D video
         if len(track)==0:
             video = cv2.VideoWriter(save+"_process.mp4", cv2.VideoWriter_fourcc('M', 'P', '4', 'V'), FPS,(1280,720))
@@ -206,43 +261,7 @@ def show(data,t0,music,field=6,device="F400",show=True,save="",FPS=200,max_fps=2
             video = cv2.VideoWriter(save+"_process.mp4", cv2.VideoWriter_fourcc('M', 'P', '4', 'V'), FPS,(3840,1920))
     if (show and not ThreeD) or len(save)>0:
         # 生成gui.png   2D 背景图
-        img=np.zeros((600,1200,3),np.uint8)
-        cv2.rectangle(img,(0,0),(600,600),(255,255,255),1)
-        for x in range(12):
-            for y in range(12):
-                if x==11 and y!=11:
-                    cv2.rectangle(img,(570,580-y*50),(580,580-(y*50+50)),(63+128*((x+y)%2),63+128*((x+y)%2),63+128*((x+y)%2)),-1)
-                elif x!=11 and y==11:
-                    cv2.rectangle(img,(x*50+20,30),(x*50+70,20),(63+128*((x+y)%2),63+128*((x+y)%2),63+128*((x+y)%2)),-1)
-                elif x==11 and y==11:
-                    cv2.rectangle(img,(570,30),(580,20),(63+128*((x+y)%2),63+128*((x+y)%2),63+128*((x+y)%2)),-1)
-                else:
-                    cv2.rectangle(img,(x*50+20,580-y*50),(x*50+70,580-(y*50+50)),(63+128*((x+y)%2),63+128*((x+y)%2),63+128*((x+y)%2)),-1)
-        cv2.rectangle(img,(600,0),(1200,270),(255,255,255),1)
-        cv2.rectangle(img,(600,270),(1200,540),(255,255,255),1)
-        for x in range(0,18):
-            cv2.rectangle(img,(600,x*10+20),(620,x*10+20),(255,255,255),-1)
-            cv2.rectangle(img,(600,x*10+290),(620,x*10+290),(255,255,255),-1)
-            if x%5==0:
-                cv2.rectangle(img,(600,x*10+20),(640,x*10+20),(255,255,255),-1)
-                cv2.rectangle(img,(600,x*10+290),(640,x*10+290),(255,255,255),-1)
-        for a in range(7):
-            if a<4:
-                for x in range(150):
-                    cv2.rectangle(img,(600+a*150+x,540),(600+a*150+x,570),color(a,(x-75)/75*125),-1)
-            else:
-                for x in range(150):
-                    cv2.rectangle(img,(600+(a-4)*150+x,570),(600+(a-4)*150+x,600),color(a,(x-75)/75*125),-1)
-        for x in range(4):
-            cv2.rectangle(img,(600+x*150,540),(750+x*150,570),(255,255,255),1)
-            cv2.rectangle(img,(600+x*150,570),(750+x*150,600),(255,255,255),1)
-        cv2.rectangle(img,(1120,570),(1200,600),(255,255,255),1)
-        if field==4:
-            cv2.rectangle(img,(20,580),(380,220),(255,255,255),1)
-            cv2.rectangle(img,(1000,0),(1000,540),(255,255,255),1)
-        font=cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(img,'front',(600,260), font, 1,(255,255,255),1)
-        cv2.putText(img,'right',(600,530), font, 1,(255,255,255),1)
+        img=getGui(field,size)
         cv2.imwrite('gui.png',img)
         #生成可视化界面↑
     if ThreeD:
@@ -344,10 +363,10 @@ def show(data,t0,music,field=6,device="F400",show=True,save="",FPS=200,max_fps=2
                 cv2.rectangle(img2,(560+y-15,500-z+5),(560+y+15,500-z-5),color(a),-1)'''
                 if (show or len(save)>0) and not ThreeD:
                     if a<4:
-                        cv2.putText(img2,str(a+1)+' ('+str(int(x*1+0.5))+','+str(int(y*1+0.5))+','+str(int(z*1+0.5))+')',(600+a*150,560), font, 0.5,(255,255,255),1)
+                        cv2.putText(img2,str(a+1)+' ('+str(int(x*1+0.5))+','+str(int(y*1+0.5))+','+str(int(z*1+0.5))+')',((600+a*150)*size,560*size), font, 0.5*size,(255,255,255),size)
                     else:
                         #在img2上画出无人机的位置并显示坐标
-                        cv2.putText(img2,str(a+1)+' ('+str(int(x*1+0.5))+','+str(int(y*1+0.5))+','+str(int(z*1+0.5))+')',(a*150,590), font, 0.5,(255,255,255),1)
+                        cv2.putText(img2,str(a+1)+' ('+str(int(x*1+0.5))+','+str(int(y*1+0.5))+','+str(int(z*1+0.5))+')',(a*150*size,590*size), font, 0.5*size,(255,255,255),size)
                 aixs.append((x,y,z,angle,led,a))
         if (show or len(save)>0) and not ThreeD:
             Xs=sorted(aixs,key=lambda x:x[0])
@@ -355,13 +374,13 @@ def show(data,t0,music,field=6,device="F400",show=True,save="",FPS=200,max_fps=2
             Zs=sorted(aixs,key=lambda x:x[2])
             #根据距离远近渲染
             for X in Xs:
-                draw_drone(img2,620+X[1],540-X[2],color(X[5],(X[0]-280)/280*125),led=X[4],skin=skin,device=device)
+                draw_drone(img2,620+X[1],540-X[2],color(X[5],(X[0]-280)/280*125),led=X[4],skin=skin,device=device,size=size)
                 #cv2.rectangle(img2,(int(560+X[1]-15),int(500-X[2]+5)),(int(560+X[1]+15),int(500-X[2]-5)),color(X[3],(X[0]-280)/280*125),-1)
             for Y in Ys:
-                draw_drone(img2,620+Y[0],270-Y[2],color(Y[5],(280-Y[1])/280*125),led=Y[4],skin=skin,device=device)
+                draw_drone(img2,620+Y[0],270-Y[2],color(Y[5],(280-Y[1])/280*125),led=Y[4],skin=skin,device=device,size=size)
                 #cv2.rectangle(img2,(int(560+Y[0]-15),int(250-Y[2]+5)),(int(560+Y[0]+15),int(250-Y[2]-5)),color(Y[3],(280-Y[1])/280*125),-1)
             for Z in Zs:
-                draw_drone(img2,20+Z[0],580-Z[1],color(Z[5],(Z[2]-125)/125*125),a=Z[3]/180*np.pi,led=Z[4],up=True,skin=skin,device=device)
+                draw_drone(img2,20+Z[0],580-Z[1],color(Z[5],(Z[2]-125)/125*125),a=Z[3]/180*np.pi,led=Z[4],up=True,skin=skin,device=device,size=size)
                 #cv2.circle(img2,(Z[0],560-Z[1]),15,color(Z[3],(Z[2]-125)/125*125),-1)
         #print(Xs)
         #print(aixs)
@@ -374,25 +393,25 @@ def show(data,t0,music,field=6,device="F400",show=True,save="",FPS=200,max_fps=2
                             #print(t,distance,int(distance/20),m+1,n+1)#距离太近就输出错误
                             warnings.warn('In '+str(int(t))+'s,distance between d'+str(m+1)+' and d'+str(n+1)+' is less than '+str((int(distance/17)+1)*17)+'cm.在'+str(int(t))+'秒，无人机'+str(m+1)+'和无人机'+str(n+1)+'之间的距离小于'+str((int(distance/17)+1)*17)+'厘米。',Warning,2)
                             if show or len(save)>0:
-                                cv2.circle(img2,(int(20+aixs[m][0]),int(580-aixs[m][1])),20,(0,0,255),3)
-                                cv2.circle(img2,(int(620+aixs[m][0]),int(270-aixs[m][2])),20,(0,0,255),3)
-                                cv2.circle(img2,(int(620+aixs[m][1]),int(540-aixs[m][2])),20,(0,0,255),3)
-                                cv2.circle(img2,(int(20+aixs[n][0]),int(580-aixs[n][1])),20,(0,0,255),3)
-                                cv2.circle(img2,(int(620+aixs[n][0]),int(270-aixs[n][2])),20,(0,0,255),3)
-                                cv2.circle(img2,(int(620+aixs[n][1]),int(540-aixs[n][2])),20,(0,0,255),3)#错误红点标记
+                                cv2.circle(img2,(int((20+aixs[m][0])*size),int((580-aixs[m][1])*size)),20*size,(0,0,255),3*size)
+                                cv2.circle(img2,(int((620+aixs[m][0])*size),int((270-aixs[m][2])*size)),20*size,(0,0,255),3*size)
+                                cv2.circle(img2,(int((620+aixs[m][1])*size),int((540-aixs[m][2])*size)),20*size,(0,0,255),3*size)
+                                cv2.circle(img2,(int((20+aixs[n][0])*size),int((580-aixs[n][1])*size)),20*size,(0,0,255),3*size)
+                                cv2.circle(img2,(int((620+aixs[n][0])*size),int((270-aixs[n][2])*size)),20*size,(0,0,255),3*size)
+                                cv2.circle(img2,(int((620+aixs[n][1])*size),int((540-aixs[n][2])*size)),20*size,(0,0,255),3*size)#错误红点标记
                     elif device=="F600":
                         if distance<33:
                             #print(t,distance,int(distance/20),m+1,n+1)#距离太近就输出错误
                             warnings.warn('In '+str(int(t))+'s,distance between d'+str(m+1)+' and d'+str(n+1)+' is less than '+str((int(distance/11)+1)*11)+'cm.在'+str(int(t))+'秒，无人机'+str(m+1)+'和无人机'+str(n+1)+'之间的距离小于'+str((int(distance/11)+1)*11)+'厘米。',Warning,2)
                             if show or len(save)>0:
-                                cv2.circle(img2,(int(20+aixs[m][0]),int(580-aixs[m][1])),12,(0,0,255),2)
-                                cv2.circle(img2,(int(620+aixs[m][0]),int(270-aixs[m][2])),12,(0,0,255),2)
-                                cv2.circle(img2,(int(620+aixs[m][1]),int(540-aixs[m][2])),12,(0,0,255),2)
-                                cv2.circle(img2,(int(20+aixs[n][0]),int(580-aixs[n][1])),12,(0,0,255),2)
-                                cv2.circle(img2,(int(620+aixs[n][0]),int(270-aixs[n][2])),12,(0,0,255),2)
-                                cv2.circle(img2,(int(620+aixs[n][1]),int(540-aixs[n][2])),12,(0,0,255),2)#错误红点标记
+                                cv2.circle(img2,(int((20+aixs[m][0])*size),int((580-aixs[m][1])*size)),12*size,(0,0,255),2*size)
+                                cv2.circle(img2,(int((620+aixs[m][0])*size),int((270-aixs[m][2])*size)),12*size,(0,0,255),2*size)
+                                cv2.circle(img2,(int((620+aixs[m][1])*size),int((540-aixs[m][2])*size)),12*size,(0,0,255),2*size)
+                                cv2.circle(img2,(int((20+aixs[n][0])*size),int((580-aixs[n][1])*size)),12*size,(0,0,255),2*size)
+                                cv2.circle(img2,(int((620+aixs[n][0])*size),int((270-aixs[n][2])*size)),12*size,(0,0,255),2*size)
+                                cv2.circle(img2,(int((620+aixs[n][1])*size),int((540-aixs[n][2])*size)),12*size,(0,0,255),2*size)#错误红点标记
         if (show or len(save)>0) and not ThreeD:
-            cv2.putText(img2,str(int(t*1000)/1000),(1050,590),font,0.5,(255,255,255),1)#在img2上显示时间
+            cv2.putText(img2,str(int(t*1000)/1000),(1050*size,590*size),font,0.5*size,(255,255,255),size)#在img2上显示时间
         time_fps=time.time()
         if len(save)==0 and show or (ThreeD and len(save)==0):
             k=int((time_fps-time_read)*max_fps)
@@ -414,11 +433,12 @@ def show(data,t0,music,field=6,device="F400",show=True,save="",FPS=200,max_fps=2
         if len(save)>0:
             fps=str(int(FPS*10+0.5)/10)
         if (show or len(save)>0) and not ThreeD:
-            cv2.putText(img2,'fps:'+fps,(1120,590),font,0.5,(255,255,255),1)
+            cv2.putText(img2,'fps:'+fps,(1120*size,590*size),font,0.5*size,(255,255,255),size)
         if show and not ThreeD:
             #cv2.destroyAllWindows()
             #cv2.namedWindow('img')
             #cv2.createTrackbar('time','img',int(t),int(t0),nothing)
+            img2=cv2.resize(img2,(int(img2.shape[1]/ssaa),int(img2.shape[0]/ssaa)))
             cv2.imshow('img',img2)
             key = cv2.waitKey(1) & 0xff
             #Esc键退出
@@ -583,6 +603,7 @@ def show(data,t0,music,field=6,device="F400",show=True,save="",FPS=200,max_fps=2
             if ThreeD:
                 video.write(img)
             else:
+                img2=cv2.resize(img2,(int(img2.shape[1]/ssaa),int(img2.shape[0]/ssaa)))
                 video.write(img2)
             K+=max_fps/FPS
             k=int(K+0.5)
