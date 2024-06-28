@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyfii"
-version = "1.5.2"
+version = "1.5.2.01"
 authors = [
   { name="Kevin0412", email="kevin0412_xlt@qq.com" },
   { name="miaooo0000OOOO", email="1683618861@qq.com"}
